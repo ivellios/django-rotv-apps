@@ -1,6 +1,6 @@
 # Django ROTV apps
 
-![travis tests](https://api.travis-ci.org/ivellios/django-rotv-apps.svg?branch=master)
+[![Build Status](https://travis-ci.org/ivellios/django-rotv-apps.svg?branch=master)](https://travis-ci.org/ivellios/django-rotv-apps)
 
 This package is a group of Django apps for running web tv website service.
 
