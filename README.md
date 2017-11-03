@@ -1,6 +1,3 @@
-# django-rotv-apps
-A group of apps for a web tv service
-
 # Django ROTV apps
 
 This package is a group of Django apps for running web tv website service.
