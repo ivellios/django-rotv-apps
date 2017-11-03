@@ -24,7 +24,7 @@ The full documentation for the package is due to be created.
 You can easily install this package with `pip`. Preferably you will use _virtualenv_ for that
 
 ```bash
-$ pip install git@github.com:ivellios/django-rotv-apps.git
+$ pip install git+ssh://git@github.com/ivellios/django-rotv-apps.git
 ```
 
 After that you can add your apps to your project. In your `settings` file add to `INSTALLED_APPS`:
