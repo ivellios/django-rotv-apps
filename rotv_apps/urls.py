@@ -1,4 +1,4 @@
-from django.conf.urls import  url
+from django.conf.urls import url, include
 
 from .program.views import (EpisodeView,
                             ProgramListView, IndexView, EpisodesByTagView,
@@ -26,4 +26,6 @@ urlpatterns = [
 
     url(r'^szukaj/?$', SearchByTagsView.as_view(), name='tag_search_search'),
     url(r'^szukaj/(?P<tags>[\w\%\&\+\._-]+)/?$', SearchResultsView.as_view(), name='tag_search_results'),
+
+    url(r'^tinymce/', include('tinymce.urls')),
 ]
