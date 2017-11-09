@@ -30,6 +30,7 @@ After that you can add your apps to your project. In your `settings` file add to
 
 ```python
 INSTALLED_APPS = [
+    'tinymce',
     # ...
     'rotv_apps.blog',
     'rotv_apps.heros',
@@ -49,6 +50,11 @@ urlpatterns = [
     # and there...
 ]
 ```
+
+### Note on TinyMCE
+
+This app uses another package with TinyMCE v4 for `TextFields`. It is included in the installation requirements, so it
+will be included in the installation. **Remember** that this package may overwrite your other tinymce apps installed in virtualenv.
 
 # Package development
 
