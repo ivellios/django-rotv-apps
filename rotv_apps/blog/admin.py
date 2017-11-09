@@ -2,8 +2,7 @@
 
 from django.contrib import admin
 
-from models import *
-from django.conf import settings
+from models import Entry, Category
 
 
 class EntryAdmin(admin.ModelAdmin):
@@ -16,13 +15,10 @@ class EntryAdmin(admin.ModelAdmin):
         'm2m': ['categories'],
     }
 
-    class Media:
-        js = (settings.STATIC_URL+'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js',
-              settings.STATIC_URL+'filebrowser/js/TinyMCEAdmin.js',)
-
 
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
+
 
 admin.site.register(Entry, EntryAdmin)
 admin.site.register(Category, CategoryAdmin)

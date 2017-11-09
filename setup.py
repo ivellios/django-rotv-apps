@@ -25,9 +25,12 @@ setup(
         'django-filebrowser>=3.7.2',
         'django-grappelli>=2.9.1',
         'django-adminactions',
-        'django-tinymce',
+        'django-tinymce4-lite',
         'factory_boy',
         'tox',
+    ],
+    depency_links = [
+        'git+ssh://git@github.com:ivellios/django-tinymce4-lite.git#egg=django-tinymce4-lite',
     ],
     classifiers=[
         'Environment :: Web Environment',

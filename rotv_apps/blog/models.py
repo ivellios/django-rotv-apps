@@ -6,6 +6,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from tinymce.models import HTMLField
+
 from tagging.fields import TagField
 from tagging import registry
 
@@ -67,7 +69,7 @@ class Entry(models.Model):
 
     title           = models.CharField(_(u'Tytuł'), max_length=255)
     slug            = models.SlugField(_(u'Adres/Slug'), unique=True)
-    text            =  models.TextField(_(u'Treść'))
+    text            = HTMLField(_(u'Treść'))
     new_tags        = TagField(_('Tagi'), blank = True, null = True)
     categories      = models.ManyToManyField(Category, verbose_name=_('Kategorie'))
     posted          = models.DateTimeField(_(u'Utworzono'), auto_now_add=True)
