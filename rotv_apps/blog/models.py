@@ -12,6 +12,9 @@ from tagging.fields import TagField
 from tagging import registry
 
 
+EnhancedTextField = HTMLField if 'tinymce' in settings.INSTALLED_APPS else models.TextField
+
+
 class CategoryQueryset(models.QuerySet):
     pass
 
@@ -62,24 +65,24 @@ class PublishedEntryManager(models.Manager):
 class Entry(models.Model):
 
     ALIGN_CHOICES = (
-        ('alignleft',_(u'Do lewej')),
-        ('alignright',_(u'Do prawej')),
-        ('aligncenter',_(u'Do środka'))
+        ('alignleft', _(u'Do lewej')),
+        ('alignright', _(u'Do prawej')),
+        ('aligncenter', _(u'Do środka'))
     )
 
-    title           = models.CharField(_(u'Tytuł'), max_length=255)
-    slug            = models.SlugField(_(u'Adres/Slug'), unique=True)
-    text            = HTMLField(_(u'Treść'))
-    new_tags        = TagField(_('Tagi'), blank = True, null = True)
-    categories      = models.ManyToManyField(Category, verbose_name=_('Kategorie'))
-    posted          = models.DateTimeField(_(u'Utworzono'), auto_now_add=True)
-    modified        = models.DateTimeField(_(u'Zmieniono'), auto_now=True)
-    active          = models.BooleanField(_(u'Aktywny'),
-                                          help_text=_(u'Zaznacz, jeżeli tekst jest gotowy do publikacji (nie notka)'),
-                                          default=False)
-    publish_time    = models.DateTimeField(_('Czas publikacji'), default=timezone.now)
-    image           = models.ImageField(_(u'Obraz szeroki (cover)'), blank=True, null=True, upload_to='blog-images')
-    image_right     = models.ImageField(_(u'Obraz wąski/pływający'), blank=True, null=True, upload_to='blog-images')
+    title = models.CharField(_(u'Tytuł'), max_length=255)
+    slug = models.SlugField(_(u'Adres/Slug'), unique=True)
+    text = EnhancedTextField(_(u'Tresc'))
+    new_tags = TagField(_('Tagi'), blank=True, null=True)
+    categories = models.ManyToManyField(Category, verbose_name=_('Kategorie'))
+    posted = models.DateTimeField(_(u'Utworzono'), auto_now_add=True)
+    modified = models.DateTimeField(_(u'Zmieniono'), auto_now=True)
+    active = models.BooleanField(_(u'Aktywny'),
+                                 help_text=_(u'Zaznacz, jeżeli tekst jest gotowy do publikacji (nie notka)'),
+                                 default=False)
+    publish_time = models.DateTimeField(_('Czas publikacji'), default=timezone.now)
+    image = models.ImageField(_(u'Obraz szeroki (cover)'), blank=True, null=True, upload_to='blog-images')
+    image_right = models.ImageField(_(u'Obraz wąski/pływający'), blank=True, null=True, upload_to='blog-images')
 
     objects = EntryManager.from_queryset(EntryQuerySet)()
     published = PublishedEntryManager.from_queryset(EntryQuerySet)()

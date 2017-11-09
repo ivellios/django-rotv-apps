@@ -26,11 +26,24 @@ You can easily install this package with `pip`. Preferably you will use _virtual
 $ pip install git+ssh://git@github.com/ivellios/django-rotv-apps.git
 ```
 
+## Optional TinyMCE fields
+
+This app uses another package with TinyMCE v4 for part of `TextFields`. It is included in the installation optional requirements. 
+If you plan on using the package simply install it with:
+
+```bash
+$ pip install git+ssh://git@github.com/ivellios/django-rotv-apps.git[tinymce]
+```
+
+**Remember** that `django-tinymce4-lite` package may colide with other tinymce apps installed in your virtualenv.
+
+# Configuration
+
 After that you can add your apps to your project. In your `settings` file add to `INSTALLED_APPS`:
 
 ```python
 INSTALLED_APPS = [
-    'tinymce',
+    'tinymce', # add this one if you will use django-tinemce4-lite package
     # ...
     'rotv_apps.blog',
     'rotv_apps.heros',
@@ -41,6 +54,14 @@ INSTALLED_APPS = [
 ]
 ```
 
+## TinyMCE configuration
+
+`django-tinymce4-lite` package is optional, but recommended for use with this app. The package is compatible
+with `django-grappelli` and `django-filebrowser`. If you plan to use them together, remember to put `tinymce` in 
+`INSTALLED_APPS` **before** `filebrowser` since `django-tinymce4-lite` is overriding some of its templates.
+
+## URLs configuration
+
 Also include our `urls` to use it's defaults or create your own for the views.
 
 ```python
@@ -50,11 +71,6 @@ urlpatterns = [
     # and there...
 ]
 ```
-
-### Note on TinyMCE
-
-This app uses another package with TinyMCE v4 for `TextFields`. It is included in the installation requirements, so it
-will be included in the installation. **Remember** that this package may overwrite your other tinymce apps installed in virtualenv.
 
 # Package development
 

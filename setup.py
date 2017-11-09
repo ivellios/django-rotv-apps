@@ -29,6 +29,9 @@ setup(
         'factory_boy',
         'tox',
     ],
+    extras_require = {
+        'tinymce': ['django-tinymce4-lite', ]
+    },
     depency_links = [
         'git+ssh://git@github.com:ivellios/django-tinymce4-lite.git#egg=django-tinymce4-lite',
     ],
