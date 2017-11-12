@@ -43,12 +43,12 @@ class UpcomingMediaPatronageManager(FutureMediaPatronageManager):
 
 class MediaPatronage(models.Model):
     """ Patronat wydarzenia """
-    name    = models.CharField(_(u'Nazwa własna'), max_length=255)
-    logo    = models.ImageField(_(u'Logotyp'),upload_to='logos/patronage')
-    url     = models.URLField(_(u'Adres url'),blank=True)
-    active  = models.BooleanField(_(u'Aktywny'), default = False)
-    start   = models.DateField(_(u'Start wydarzenia'))
-    end     = models.DateField(_(u'Koniec wydarzenia'))
+    name = models.CharField(_(u'Nazwa własna'), max_length=255)
+    logo = models.ImageField(_(u'Logotyp'),upload_to='logos/patronage')
+    url = models.URLField(_(u'Adres url'),blank=True)
+    active = models.BooleanField(_(u'Aktywny'), default = False)
+    start = models.DateField(_(u'Start wydarzenia'))
+    end = models.DateField(_(u'Koniec wydarzenia'))
 
     objects = MediaPatronageManager.from_queryset(MediaPatronageQuerySet)()
     future  = FutureMediaPatronageManager.from_queryset(MediaPatronageQuerySet)()
@@ -64,12 +64,12 @@ class MediaPatronage(models.Model):
 
 class NormalMediaPatronage(models.Model):
     """ Patronat wydawnictw, publikacji, produktow """
-    name    = models.CharField(_(u'Nazwa własna'), max_length=255)
-    logo    = models.ImageField(_(u'Logotyp'), upload_to='logos/patronage')
-    url     = models.URLField(_(u'Adres url'), blank=True)
-    active  = models.BooleanField(_(u'Aktywny'), default = False)
-    start   = models.DateField(_(u'Od kiedy wyświetlać'), blank=True, null=True)
-    end     = models.DateField(_(u'Do kiedy wyświetlać'), blank=True, null=True)
+    name = models.CharField(_(u'Nazwa własna'), max_length=255)
+    logo = models.ImageField(_(u'Logotyp'), upload_to='logos/patronage')
+    url = models.URLField(_(u'Adres url'), blank=True)
+    active = models.BooleanField(_(u'Aktywny'), default = False)
+    start = models.DateField(_(u'Od kiedy wyświetlać'), blank=True, null=True)
+    end = models.DateField(_(u'Do kiedy wyświetlać'), blank=True, null=True)
 
     class Meta:
         verbose_name = _(u'Patronat produktu')
@@ -80,10 +80,10 @@ class NormalMediaPatronage(models.Model):
 
 
 class Partner(models.Model):
-    name    = models.CharField(_(u'Nazwa własna'), max_length=255)
-    logo    = models.ImageField(_(u'Logotyp'),upload_to='logos/partner')
-    url     = models.URLField(_(u'Adres url'),blank=True)
-    active  = models.BooleanField(_(u'Aktywny'), default = False)
+    name = models.CharField(_(u'Nazwa własna'), max_length=255)
+    logo = models.ImageField(_(u'Logotyp'),upload_to='logos/partner')
+    url = models.URLField(_(u'Adres url'),blank=True)
+    active = models.BooleanField(_(u'Aktywny'), default = False)
 
     class Meta:
         verbose_name = _(u'Partner')
@@ -94,10 +94,10 @@ class Partner(models.Model):
 
 
 class MediaPatron(models.Model):
-    name    = models.CharField(_(u'Nazwa własna'), max_length=255)
-    logo    = models.ImageField(_(u'Logotyp'),upload_to='logos/patron')
-    url     = models.URLField(_(u'Adres url'),blank=True)
-    active  = models.BooleanField(_(u'Aktywny'), default = False)
+    name = models.CharField(_(u'Nazwa własna'), max_length=255)
+    logo = models.ImageField(_(u'Logotyp'),upload_to='logos/patron')
+    url = models.URLField(_(u'Adres url'),blank=True)
+    active = models.BooleanField(_(u'Aktywny'), default = False)
 
     class Meta:
         verbose_name = _(u'Patron')
@@ -108,10 +108,10 @@ class MediaPatron(models.Model):
 
 
 class Colaborator(models.Model):
-    name    = models.CharField(_(u'Nazwa własna'), max_length=255)
-    logo    = models.ImageField(_(u'Logotyp'),upload_to='logos/colaborator')
-    url     = models.URLField(_(u'Adres url'),blank=True)
-    active  = models.BooleanField(_(u'Aktywny'), default = False)
+    name = models.CharField(_(u'Nazwa własna'), max_length=255)
+    logo = models.ImageField(_(u'Logotyp'),upload_to='logos/colaborator')
+    url = models.URLField(_(u'Adres url'),blank=True)
+    active = models.BooleanField(_(u'Aktywny'), default = False)
 
     class Meta:
         verbose_name = _(u'Współpracujący')

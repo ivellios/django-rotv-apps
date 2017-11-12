@@ -13,10 +13,6 @@ class EpisodeAdmin(admin.ModelAdmin):
     list_filter = ['program', 'publish_time', ]
     actions = ['make_hero_from_episode', 'publish' ]
 
-    class Media:
-        js = (settings.STATIC_URL+'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js',
-              settings.STATIC_URL+'filebrowser/js/TinyMCEAdmin.js',)
-
     def make_hero_from_episode(self, request, queryset):
         """
             1) Takes every selected Episode
@@ -50,15 +46,11 @@ class EpisodeAdmin(admin.ModelAdmin):
 
 
 class ProgramAdmin(admin.ModelAdmin):
-    class Media:
-        js = (settings.STATIC_URL+'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js',
-              settings.STATIC_URL+'filebrowser/js/TinyMCEAdmin.js',)
+    pass
 
 
 class HostAdmin(admin.ModelAdmin):
-    class Media:
-        js = (settings.STATIC_URL+'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js',
-              settings.STATIC_URL+'filebrowser/js/TinyMCEAdmin.js',)
+    pass
 
 
 admin.site.register(Host, HostAdmin)

@@ -6,13 +6,10 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from tinymce.models import HTMLField
+from ..utils import EnhancedTextField
 
 from tagging.fields import TagField
 from tagging import registry
-
-
-EnhancedTextField = HTMLField if 'tinymce' in settings.INSTALLED_APPS else models.TextField
 
 
 class CategoryQueryset(models.QuerySet):

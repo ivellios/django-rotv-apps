@@ -15,10 +15,6 @@ class HeroEntryAdmin(admin.ModelAdmin):
         'fk': ['hero', 'hero.title', 'hero.slug'],
     }
 
-    class Media:
-        js = (settings.STATIC_URL+'grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js',
-              settings.STATIC_URL+'filebrowser/js/TinyMCEAdmin.js',)
-
     def reset_sorting(self, request, queryset):
         queryset.update(sort = 100)
 

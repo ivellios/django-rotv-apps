@@ -7,14 +7,16 @@ from django.utils.translation import ugettext_lazy as _
 from tagging.fields import TagField
 from tagging.registry import register
 
+from ..utils import EnhancedTextField
+
 
 class Program(models.Model):
-    name        = models.CharField(_(u'Nazwa programu'), max_length=255, unique=True)
-    slug        = models.SlugField(_(u'Slug'))
-    image       = models.ImageField(_(u'Obraz dla programu'), upload_to='programs', blank=True)
-    desc        = models.TextField(_(u'Opis'), blank=True, null=True)
-    order       = models.IntegerField(_(u'Kolejność'), default=9999)
-    new_tags    = TagField(_(u'Tagi'), blank=True, null=True)
+    name = models.CharField(_(u'Nazwa programu'), max_length=255, unique=True)
+    slug = models.SlugField(_(u'Slug'))
+    image = models.ImageField(_(u'Obraz dla programu'), upload_to='programs', blank=True)
+    desc = EnhancedTextField(_(u'Opis'), blank=True, null=True)
+    order = models.IntegerField(_(u'Kolejność'), default=9999)
+    new_tags = TagField(_(u'Tagi'), blank=True, null=True)
 
     class Meta:
         verbose_name = _(u'Program')
@@ -51,10 +53,10 @@ class Program(models.Model):
 
 
 class Host(models.Model):
-    name        = models.CharField(_(u'Nazwa'), max_length=255)
-    description = models.TextField(_(u'Opis'), blank=True, null=True)
-    image       = models.ImageField(_(u'Zdjęcie'), upload_to='hosts', null=True, blank=True)
-    email       = models.EmailField(_(u'Adres e-mail'), null=True, blank=True)
+    name = models.CharField(_(u'Nazwa'), max_length=255)
+    description = EnhancedTextField(_(u'Opis'), blank=True, null=True)
+    image = models.ImageField(_(u'Zdjęcie'), upload_to='hosts', null=True, blank=True)
+    email = models.EmailField(_(u'Adres e-mail'), null=True, blank=True)
 
     class Meta:
         verbose_name = _(u'Prowadzący')
@@ -85,21 +87,21 @@ class EpisodeManager(models.Manager):
 
 
 class Episode(models.Model):
-    added           = models.DateTimeField(_(u'Data dodania'), auto_now_add=True)
-    program         = models.ForeignKey(Program)
-    number          = models.IntegerField(_(u'Numer odcinka'))
-    hosts           = models.ManyToManyField(Host, verbose_name=_(u'Prowadzący'), blank=True,)
-    title           = models.CharField(_(u'Tytuł odcinka'), max_length=255)
-    short           = models.CharField(_(u'Krótki opis'), max_length=255)
-    description     = models.TextField(_(u'Opis'))
-    new_tags        = TagField(_(u'Tagi'), blank=True, null=True)
-    youtube_code    = models.CharField(_(u'Kod YT'), max_length=255)
-    image           = models.ImageField(_(u'Ilustracja'), upload_to='episodes')
-    promoted        = models.BooleanField(_('Polecany'), default=False)
-    active          = models.BooleanField(_('Do publikacji?'), default=True,
+    added = models.DateTimeField(_(u'Data dodania'), auto_now_add=True)
+    program = models.ForeignKey(Program)
+    number = models.IntegerField(_(u'Numer odcinka'))
+    hosts = models.ManyToManyField(Host, verbose_name=_(u'Prowadzący'), blank=True,)
+    title = models.CharField(_(u'Tytuł odcinka'), max_length=255)
+    short = models.CharField(_(u'Krótki opis'), max_length=255)
+    description = EnhancedTextField(_(u'Opis'))
+    new_tags = TagField(_(u'Tagi'), blank=True, null=True)
+    youtube_code = models.CharField(_(u'Kod YT'), max_length=255)
+    image = models.ImageField(_(u'Ilustracja'), upload_to='episodes')
+    promoted = models.BooleanField(_('Polecany'), default=False)
+    active = models.BooleanField(_('Do publikacji?'), default=True,
                                           help_text=_(u'Niezależnie od daty publikacji film będzie opublikowany '
                                                         u'tylko jeżeli ta opcja jest zaznaczona'))
-    publish_time    = models.DateTimeField(_('Publikacja'), default=timezone.now)
+    publish_time = models.DateTimeField(_('Publikacja'), default=timezone.now)
 
     objects = EpisodeManager.from_queryset(EpisodeQuerySet)()
     published = PublishedEpisodeManager.from_queryset(EpisodeQuerySet)()
@@ -144,6 +146,7 @@ class Episode(models.Model):
 
     def get_number(self):
         return "{} #{:01d}".format(self.program, self.number)
+
 
 register(Program)
 register(Episode)

@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-rotv-apps',
-    version='2.0',
+    version='2.1',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',  # example license
@@ -33,7 +33,7 @@ setup(
         'tinymce': ['django-tinymce4-lite', ]
     },
     depency_links = [
-        'git+ssh://git@github.com:ivellios/django-tinymce4-lite.git#egg=django-tinymce4-lite',
+        'git+ssh://git@github.com/ivellios/django-tinymce4-lite.git#egg=django-tinymce4-lite',
     ],
     classifiers=[
         'Environment :: Web Environment',
