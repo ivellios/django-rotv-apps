@@ -4,3 +4,4 @@
 build/
 .coverage
 *.pyc
+.DS_Store
