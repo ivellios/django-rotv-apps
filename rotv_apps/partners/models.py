@@ -41,17 +41,43 @@ class UpcomingMediaPatronageManager(FutureMediaPatronageManager):
         return patronages
 
 
+PATRONAGE_UPLOAD_DIR_LOGO = 'logos/patronage'
+PATRONAGE_UPLOAD_DIR_BANNER = 'uploads/partners/banners'
+PATRONAGE_UPLOAD_DIR_COVER = 'uploads/partners/covers'
+PATRONAGE_UPLOAD_DIR_SMALL = 'uploads/partners/images'
+
+
 class MediaPatronage(models.Model):
-    """ Patronat wydarzenia """
-    name = models.CharField(_(u'Nazwa własna'), max_length=255)
-    logo = models.ImageField(_(u'Logotyp'),upload_to='logos/patronage')
-    url = models.URLField(_(u'Adres url'),blank=True)
-    active = models.BooleanField(_(u'Aktywny'), default = False)
-    start = models.DateField(_(u'Start wydarzenia'))
-    end = models.DateField(_(u'Koniec wydarzenia'))
+    """ Patronage for event model class. Keeps information on all events. """
+    name = models.CharField(_(u'Nazwa wydarzenia'), max_length=255)
+    logo = models.ImageField(_(u'Logo'), upload_to=PATRONAGE_UPLOAD_DIR_LOGO)
+    url = models.URLField(_(u'Adres url strony internetowej'), blank=True)
+    active = models.BooleanField(_(u'Aktywny'), default=False)
+    start = models.DateField(_(u'Data początku'))
+    end = models.DateField(_(u'Data zakończenia'))
+    contact_email = models.EmailField(_(u'E-mail kontaktowy organizatora'), )
+    city = models.CharField(_(u'Miasto'), max_length=128)
+    spot = models.CharField(_(u'Miejsce wydarzenia'), max_length=255,
+                            help_text=u'Dokładna nazwa szkoły, targów, lokacji',
+                            blank=True)
+    banner_image = models.ImageField(_(u'Baner wydarzenia'),
+                                     help_text=u'Szerokość sugerowana: 800px',
+                                     upload_to=PATRONAGE_UPLOAD_DIR_BANNER,
+                                     blank=True, null=True)
+    cover_image = models.ImageField(_(u'Szeroki obraz typu cover'),
+                                    help_text=u"Szerokość sugerowana: 1000-1600px",
+                                    upload_to=PATRONAGE_UPLOAD_DIR_COVER,
+                                    blank=True, null=True)
+    small_image = models.ImageField(_(u'Mały obrazk'),
+                                    help_text=u'Szerokość sugerowana: 300px',
+                                    upload_to=PATRONAGE_UPLOAD_DIR_SMALL,
+                                    blank=True, null=True)
+    additional_notes = models.TextField(_(u'Informacje dodatkowe'),
+                                        help_text=u'Opis wydarzenia, charakter, grupa docelowa i inne.',
+                                        blank=True)
 
     objects = MediaPatronageManager.from_queryset(MediaPatronageQuerySet)()
-    future  = FutureMediaPatronageManager.from_queryset(MediaPatronageQuerySet)()
+    future = FutureMediaPatronageManager.from_queryset(MediaPatronageQuerySet)()
     upcoming = UpcomingMediaPatronageManager.from_queryset(MediaPatronageQuerySet)()
 
     class Meta:
@@ -119,3 +145,4 @@ class Colaborator(models.Model):
 
     def __unicode__(self):
         return self.name
+

@@ -7,6 +7,7 @@ from .program.views import (EpisodeView,
 from .blog.views import (EntryView, ArchiveView, EntriesByTagView, SearchEntriesByTagsView,
                          EntriesBySearchedTagsView)
 from .tag_search.views import SearchByTagsView, SearchResultsView
+from .partners.views import MediaPatronageRequestView
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
@@ -17,6 +18,8 @@ urlpatterns = [
     url(r'^odcinki/szukaj/?$', SearchEpisodeByTagsView.as_view(), name='program_episode_search'),
     url(r'^odcinki/szukaj/(?P<tags>[\w\%\&\+\._-]+)/?$', EpisodesBySearchedTagsView.as_view(),
         name='program_episode_search_by_tags'),
+
+    url(r'^patronat/zapytanie$', MediaPatronageRequestView.as_view(), name='partners_patronage_request'),
 
     url(r'^blog/tag/(?P<tags>[\w\%\&\+\._-]+)/?$', EntriesByTagView.as_view(), name='blog_tag'),
     url(r'^blog/szukaj/?$', SearchEntriesByTagsView.as_view(), name='blog_search'),
