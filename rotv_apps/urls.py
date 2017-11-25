@@ -19,8 +19,8 @@ urlpatterns = [
     url(r'^odcinki/szukaj/(?P<tags>[\w\%\&\+\._-]+)/?$', EpisodesBySearchedTagsView.as_view(),
         name='program_episode_search_by_tags'),
 
-    url(r'^events/partners/add/confirm/?$', MediaPatronageRequestConfirmView.as_view(), name='partners_event_request_confirm'),
-    url(r'^events/partners/add/?$', MediaPatronageRequestView.as_view(), name='partners_event_request'),
+    url(r'^events/partners/add/confirm/?$', MediaPatronageRequestConfirmView.as_view(), name='event_request_confirm'),
+    url(r'^events/partners/add/?$', MediaPatronageRequestView.as_view(), name='event_request'),
 
 
     url(r'^blog/tag/(?P<tags>[\w\%\&\+\._-]+)/?$', EntriesByTagView.as_view(), name='blog_tag'),
