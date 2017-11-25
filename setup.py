@@ -25,6 +25,7 @@ setup(
         'django-filebrowser>=3.7.2',
         'django-grappelli>=2.9.1',
         'django-adminactions',
+        'tinymce',
         'factory_boy',
         'tox',
     ],
