@@ -81,8 +81,8 @@ class MediaPatronage(models.Model):
     upcoming = UpcomingMediaPatronageManager.from_queryset(MediaPatronageQuerySet)()
 
     class Meta:
-        verbose_name = _(u'Wydarzenie')
-        verbose_name_plural = _(u'Wydarzenia')
+        verbose_name = _(u'Promowane wydarzenie')
+        verbose_name_plural = _(u'Promowane wydarzenia')
 
     def __unicode__(self):
         return self.name
@@ -98,8 +98,8 @@ class NormalMediaPatronage(models.Model):
     end = models.DateField(_(u'Do kiedy wyświetlać'), blank=True, null=True)
 
     class Meta:
-        verbose_name = _(u'Patronat produktu')
-        verbose_name_plural = _(u'Patronaty produktów')
+        verbose_name = _(u'Promowany produkt')
+        verbose_name_plural = _(u'Promowane produkty')
 
     def __unicode__(self):
         return self.name
