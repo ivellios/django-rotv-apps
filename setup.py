@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-rotv-apps',
-    version='2.1',
+    version='2.2.1',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',  # example license
@@ -25,7 +25,6 @@ setup(
         'django-filebrowser>=3.7.2',
         'django-grappelli>=2.9.1',
         'django-adminactions',
-        'django-tinymce4-lite',
         'factory_boy',
         'tox',
     ],
