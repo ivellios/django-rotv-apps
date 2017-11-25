@@ -52,7 +52,7 @@ class MediaPatronage(models.Model):
     name = models.CharField(_(u'Nazwa wydarzenia'), max_length=255)
     logo = models.ImageField(_(u'Logo'), upload_to=PATRONAGE_UPLOAD_DIR_LOGO)
     url = models.URLField(_(u'Adres url strony internetowej'), blank=True)
-    active = models.BooleanField(_(u'Aktywny'), default=False)
+    active = models.BooleanField(_(u'Aktywny patronat?'), default=False)
     start = models.DateField(_(u'Data początku'))
     end = models.DateField(_(u'Data zakończenia'))
     contact_email = models.EmailField(_(u'E-mail kontaktowy organizatora'), )
@@ -81,8 +81,8 @@ class MediaPatronage(models.Model):
     upcoming = UpcomingMediaPatronageManager.from_queryset(MediaPatronageQuerySet)()
 
     class Meta:
-        verbose_name = _(u'Patronat wydarzenia')
-        verbose_name_plural = _(u'Patronaty wydarzeń')
+        verbose_name = _(u'Wydarzenie')
+        verbose_name_plural = _(u'Wydarzenia')
 
     def __unicode__(self):
         return self.name
