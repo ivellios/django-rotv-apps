@@ -20,10 +20,10 @@ setup(
     author_email='ivellios@raportobiezyswiata.tv',
     test_suite='runtests.runtests',
     install_requires=[
-        'Django==1.10.7',
+        'Django==1.11.8',
         'django-tagging==0.4.5',
-        'django-filebrowser>=3.7.2',
-        'django-grappelli>=2.9.1',
+        'django-filebrowser>=3.9.1',
+        'django-grappelli>=2.10.1',
         'django-adminactions',
         'django-tinymce4-lite',
         'factory_boy',
