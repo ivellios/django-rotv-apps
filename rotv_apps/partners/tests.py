@@ -66,7 +66,7 @@ class MediaPatronageManagersTest(TestCase):
             upcomming objects should return next event in timeline + all events that start
             during that event - thus all events that are parallel
         """
-        event1 = MediaPatronageFactory()
+        event1 = MediaPatronageFactory.create()
         event2_start = event1.end + relativedelta(days=-1)
         event2_end = event2_start + relativedelta(days=3)
         event2 = MediaPatronageFactory(start=event2_start, end=event2_end)
@@ -75,3 +75,12 @@ class MediaPatronageManagersTest(TestCase):
 
         self.assertEqual(q.count(), 2)
 
+
+class MediaPatronateTest(TestCase):
+    def test_send_create_notification_mail(self):
+        from django.core import mail
+        from django.conf import settings
+        event1 = MediaPatronageFactory.create()
+        event1.send_create_notification_mail()
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, settings.PATRONAGE_MANAGERS)
