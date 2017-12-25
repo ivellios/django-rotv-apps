@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from django.core.mail import send_mail, EmailMessage
+from django.core.mail import send_mail
 from django.db import models
 from django.template import Context
 from django.template.loader import get_template
@@ -95,11 +95,14 @@ class MediaPatronage(models.Model):
         content = get_template('partners/emails/mediapatronage_created.html').render({
             'event': self,
         })
-        msg = EmailMessage(u'Nowe zgłoszenie wydarzenia do patronatu - {}'.format(self.name),
-                           content,
-                           settings.EMAIL_HOST_USER,
-                           to=settings.PATRONAGE_MANAGERS)
-        msg.send()
+        send_mail(
+            u'Nowe zgłoszenie wydarzenia do patronatu - {}'.format(self.name),
+            content,
+            'no-reply@raportobiezyswiata.tv',
+            settings.PATRONAGE_MANAGERS,
+            html_message=content,
+            fail_silently=True,
+        )
 
     def get_admin_url(self):
         return "{admin_root}/admin/partners/mediapatronage/{pk}".format(admin_root=settings.ROOT_URL,
