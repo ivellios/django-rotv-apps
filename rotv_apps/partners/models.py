@@ -79,6 +79,9 @@ class MediaPatronage(models.Model):
     additional_notes = models.TextField(_(u'Informacje dodatkowe'),
                                         help_text=u'Opis wydarzenia, charakter, grupa docelowa i inne.',
                                         blank=True)
+    created = models.DateTimeField(_(u'Dodano'), auto_now_add=True,)
+    modified = models.DateTimeField(_(u'Zmieniono'), auto_now=True,)
+    activated = models.DateTimeField(_(u'Aktywowano'), null=True, blank=True)
 
     objects = MediaPatronageManager.from_queryset(MediaPatronageQuerySet)()
     future = FutureMediaPatronageManager.from_queryset(MediaPatronageQuerySet)()
