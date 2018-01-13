@@ -12,6 +12,7 @@ class MediaPatronageRequestView(generic.CreateView):
     form_class = MediaPatronageForm
 
     def get_success_url(self):
+        self.object.send_create_notification_mail()
         return reverse('event_request_confirm')
 
 

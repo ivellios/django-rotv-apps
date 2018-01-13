@@ -43,3 +43,6 @@ DATABASES = {
 }
 
 STATIC_URL = '/static/' # this is required for django-tinymce module
+
+PATRONAGE_MANAGERS = ['some@email.com', ]
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

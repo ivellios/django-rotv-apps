@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
+from django.core.mail import send_mail
 from django.db import models
+from django.template import Context
+from django.template.loader import get_template
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -86,6 +90,23 @@ class MediaPatronage(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def send_create_notification_mail(self):
+        content = get_template('partners/emails/mediapatronage_created.html').render({
+            'event': self,
+        })
+        send_mail(
+            u'Nowe zgłoszenie wydarzenia do patronatu - {}'.format(self.name),
+            content,
+            'no-reply@raportobiezyswiata.tv',
+            settings.PATRONAGE_MANAGERS,
+            html_message=content,
+            fail_silently=True,
+        )
+
+    def get_admin_url(self):
+        return "{admin_root}/admin/partners/mediapatronage/{pk}".format(admin_root=settings.ROOT_URL,
+                                                                        pk=self.pk)
 
 
 class NormalMediaPatronage(models.Model):
