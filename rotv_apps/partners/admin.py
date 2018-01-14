@@ -6,7 +6,7 @@ from models import Partner, MediaPatron, MediaPatronage, NormalMediaPatronage, C
 
 
 class MediaPatronageAdmin(admin.ModelAdmin):
-    list_display = ['name', 'start', 'end', 'active']
+    list_display = ['name', 'start', 'end', 'active', 'activated', 'created', 'modified']
     
 
 class NormalMediaPatronageAdmin(admin.ModelAdmin):

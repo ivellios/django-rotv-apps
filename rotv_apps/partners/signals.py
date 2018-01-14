@@ -7,7 +7,7 @@ from .models import MediaPatronage
 
 @receiver(pre_save, sender=MediaPatronage)
 def pre_save_media_patronage(sender, instance, raw, **kwargs):
-    if instance._state.adding is False:
+    if instance.pk:
         original = sender.objects.get(pk=instance.pk)
         if instance.active and not original.active:
             instance.activated = timezone.now()

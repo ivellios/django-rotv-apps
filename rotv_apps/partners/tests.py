@@ -76,7 +76,7 @@ class MediaPatronageManagersTest(TestCase):
         self.assertEqual(q.count(), 2)
 
 
-class MediaPatronateTest(TestCase):
+class MediaPatronageTest(TestCase):
     def test_send_create_notification_mail(self):
         from django.core import mail
         from django.conf import settings
@@ -84,3 +84,12 @@ class MediaPatronateTest(TestCase):
         event1.send_create_notification_mail()
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, settings.PATRONAGE_MANAGERS)
+
+    def test_setting_active_changes_activation_time(self):
+        event = MediaPatronageFactory.create(active=False)
+        event.active = True
+        event.save()
+
+        event.refresh_from_db()
+
+        self.assertIsNotNone(event)
