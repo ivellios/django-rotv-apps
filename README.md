@@ -99,3 +99,11 @@ $ tox
 # Contributing
 
 If you wish to join us and develop the package and the service together with us, feel free to contact us at [redakcja@raportobiezyswiata.tv](mailto:redakcja@raportobiezyswiata.tv). Also you can always create a new Issue for enhancement or Pull Request here at GitHub. They all will be very welcome.
+
+# Changelog
+
+**2.2.3:**
+- added email notification for new events added
+- activation of event logged with date/time
+- added created/modified for event (MediaPatronage)
+- added action to admin for bulk activation of events
