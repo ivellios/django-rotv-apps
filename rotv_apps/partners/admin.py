@@ -17,6 +17,7 @@ class MediaPatronageAdmin(admin.ModelAdmin):
                     'start', 'end', 'active', 'activated',
                     'contact_email',
                     'created', 'modified']
+    actions = [activate_patronage, ]
     
 
 class NormalMediaPatronageAdmin(admin.ModelAdmin):
