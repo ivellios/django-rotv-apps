@@ -5,11 +5,13 @@ from django.contrib import admin
 from models import Partner, MediaPatron, MediaPatronage, NormalMediaPatronage, Colaborator
 
 
-def activate_patronage(modeladmin, request, queryset):
-    queryset.update(active=True)
+def activate_event(modeladmin, request, queryset):
+    for event in queryset.iterator():
+        event.active = True
+        event.save()
 
 
-activate_patronage.short_description = u'Oznacz wybrane wydarzenia jako aktywne'
+activate_event.short_description = u'Oznacz wybrane wydarzenia jako aktywne'
 
 
 class MediaPatronageAdmin(admin.ModelAdmin):
@@ -17,7 +19,7 @@ class MediaPatronageAdmin(admin.ModelAdmin):
                     'start', 'end', 'active', 'activated',
                     'contact_email',
                     'created', 'modified']
-    actions = [activate_patronage, ]
+    actions = [activate_event, ]
     
 
 class NormalMediaPatronageAdmin(admin.ModelAdmin):
@@ -30,4 +32,3 @@ admin.site.register(NormalMediaPatronage, NormalMediaPatronageAdmin)
 admin.site.register(Partner)
 admin.site.register(MediaPatron)
 admin.site.register(Colaborator)
-
