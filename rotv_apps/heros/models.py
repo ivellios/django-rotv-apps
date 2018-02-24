@@ -20,8 +20,8 @@ class Hero(models.Model):
     objects = HeroManager.from_queryset(HeroQuerySet)
 
     class Meta:
-        verbose_name = _(u'Rotator')
-        verbose_name_plural = _(u'Rotatory')
+        verbose_name = _(u'Hero')
+        verbose_name_plural = _(u'Heros')
         ordering = ['name', ]
 
     def __unicode__(self):
@@ -41,6 +41,12 @@ class HeroEntryQuerySet(models.QuerySet):
     def after(self, date):
         return self.filter(publish_time__gte=date)
 
+    def slider(self):
+        return self.filter(on_slider=True)
+
+    def non_slider(self):
+        return self.filter(on_slider=False)
+
 
 class HeroEntryManager(models.Manager):
     pass
@@ -54,26 +60,27 @@ class PublishedHeroManager(models.Manager):
 
 
 class HeroEntry(models.Model):
-    hero            = models.ForeignKey(Hero, related_name='entries')
-    title           = models.CharField(_(u'Tytuł'), max_length=255, )
-    subtitle        = models.CharField(_(u'Podtytuł'), max_length=255, blank=True, null=True)
-    text            = models.CharField(_(u'Lead'), max_length=255, blank=True, null=True)
-    url             = models.CharField(_(u'URL do którego prowadzi'), max_length=200)
-    button_text     = models.CharField(_(u'Przycisk dalej'), max_length=255, blank=True, null=True,
+    hero = models.ForeignKey(Hero, related_name='entries')
+    title = models.CharField(_(u'Tytuł'), max_length=255, )
+    subtitle = models.CharField(_(u'Podtytuł'), max_length=255, blank=True, null=True)
+    text = models.CharField(_(u'Lead'), max_length=255, blank=True, null=True)
+    url = models.CharField(_(u'URL do którego prowadzi'), max_length=200)
+    button_text = models.CharField(_(u'Przycisk dalej'), max_length=255, blank=True, null=True,
                                    default='Zobacz odcinek')
-    image           = models.ImageField(_(u'Ilustracja'), upload_to='heros')
-    sort            = models.IntegerField(_(u'Kolejność'), default=100)
-    added           = models.DateTimeField(_(u'Dodano'), auto_now_add=True)
-    modified        = models.DateTimeField(_(u'Zmodyfikowano'), auto_now=True)
-    publish_time    = models.DateTimeField(_(u'Publikacja'), default=timezone.now)
-    is_active       = models.BooleanField(_(u'Czy jest aktywny'), default=True)
+    image = models.ImageField(_(u'Ilustracja'), upload_to='heros')
+    sort = models.IntegerField(_(u'Kolejność'), default=100)
+    added = models.DateTimeField(_(u'Dodano'), auto_now_add=True)
+    modified = models.DateTimeField(_(u'Zmodyfikowano'), auto_now=True)
+    publish_time = models.DateTimeField(_(u'Publikacja'), default=timezone.now)
+    is_active = models.BooleanField(_(u'Czy jest aktywny'), default=True)
+    on_slider = models.BooleanField(_(u"Put on slider"), default=False)
 
     objects = HeroEntryManager.from_queryset(HeroEntryQuerySet)()
     published = PublishedHeroManager.from_queryset(HeroEntryQuerySet)()
 
     class Meta:
-        verbose_name = _(u'Wpis w rotatorze')
-        verbose_name_plural = _(u'Wpisy w rotatorach')
+        verbose_name = _(u'Hero entry')
+        verbose_name_plural = _(u'Hero entries')
         ordering = ['sort', '-modified', 'title']
 
     def __unicode__(self):

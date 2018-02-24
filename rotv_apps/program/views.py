@@ -38,7 +38,8 @@ class IndexView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         context['recent_blog_posts'] = Entry.published.all()[:3]
-        context['hero_list'] = HeroEntry.published.all()[:5]
+        context['hero_list'] = HeroEntry.published.non_slider()[:4]
+        context['hero_slider'] = HeroEntry.published.slider()[:3]
         context['recent_episodes'] = Episode.published.all().order_by('-added')[:5]
         context['promoted'] = Episode.published.filter(promoted=True).order_by('-added')[:6]
         context['partners'] = Partner.objects.filter(active=True).order_by('name')
