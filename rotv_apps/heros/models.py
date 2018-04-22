@@ -41,12 +41,6 @@ class HeroEntryQuerySet(models.QuerySet):
     def after(self, date):
         return self.filter(publish_time__gte=date)
 
-    def slider(self):
-        return self.filter(on_slider=True)
-
-    def non_slider(self):
-        return self.filter(on_slider=False)
-
 
 class HeroEntryManager(models.Manager):
     pass
@@ -73,7 +67,6 @@ class HeroEntry(models.Model):
     modified = models.DateTimeField(_(u'Zmodyfikowano'), auto_now=True)
     publish_time = models.DateTimeField(_(u'Publikacja'), default=timezone.now)
     is_active = models.BooleanField(_(u'Czy jest aktywny'), default=True)
-    on_slider = models.BooleanField(_(u"Put on slider"), default=False)
 
     objects = HeroEntryManager.from_queryset(HeroEntryQuerySet)()
     published = PublishedHeroManager.from_queryset(HeroEntryQuerySet)()
@@ -81,7 +74,7 @@ class HeroEntry(models.Model):
     class Meta:
         verbose_name = _(u'Hero entry')
         verbose_name_plural = _(u'Hero entries')
-        ordering = ['sort', '-modified', 'title']
+        ordering = ['sort', '-publish_time', '-added', '-modified', 'title']
 
     def __unicode__(self):
         return self.title
