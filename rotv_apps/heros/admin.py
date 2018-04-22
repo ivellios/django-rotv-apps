@@ -21,7 +21,7 @@ class HeroEntryAdmin(admin.ModelAdmin):
 
 class HeroEntryInline(admin.TabularInline):
     model = HeroEntry
-    fields = ['title', 'subtitle', 'is_active', 'url']
+    fields = ['title', 'subtitle', 'is_active', 'url', 'text']
 
 
 class HeroAdmin(admin.ModelAdmin):
