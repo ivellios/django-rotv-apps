@@ -7,7 +7,7 @@ from django.utils import timezone
 from ..tag_search.views import ObjectsByTagView, SearchObjectsByTagsView
 from ..partners.models import Partner, MediaPatron, MediaPatronage, Colaborator, NormalMediaPatronage
 from ..blog.models import Entry
-from ..heros.models import HeroEntry
+from ..heros.models import HeroEntry, Hero
 
 from .models import Episode, Program
 
@@ -37,8 +37,24 @@ class IndexView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
+
+        try:
+            index_hero = Hero.objects.get(slug='index')
+            index_hero_entries = HeroEntry.published.filter(hero=index_hero)[:index_hero.limit]
+        except Hero.DoesNotExist:
+            index_hero_entries = None
+
+        try:
+            slider_hero = Hero.objects.get(slug='index_slider')
+            slider_hero_entries = HeroEntry.published.filter(
+                hero=slider_hero
+            ).order_by('-publish_time')[:slider_hero.limit]
+        except Hero.DoesNotExist:
+            slider_hero_entries = None
+
         context['recent_blog_posts'] = Entry.published.all()[:3]
-        context['hero_list'] = HeroEntry.published.all()[:5]
+        context['index_hero'] = index_hero_entries
+        context['slider_hero'] = slider_hero_entries
         context['recent_episodes'] = Episode.published.all().order_by('-added')[:5]
         context['promoted'] = Episode.published.filter(promoted=True).order_by('-added')[:6]
         context['partners'] = Partner.objects.filter(active=True).order_by('name')

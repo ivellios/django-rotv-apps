@@ -49,6 +49,9 @@ class EntryQuerySet(models.QuerySet):
     def after(self, date):
         return self.filter(publish_time__gte=date)
 
+    def published(self):
+        return self.active().before(timezone.now())
+
 
 class EntryManager(models.Manager):
     pass
