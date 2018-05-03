@@ -11,7 +11,7 @@ except ImportError:
 
 
 class MediaPatronageForm(forms.ModelForm):
-    contact_email = forms.EmailField(required=True)
+    contact_email = forms.EmailField(required=True, label=u'E-mail kontaktowy organizatora')
 
     class Meta:
         model = MediaPatronage
