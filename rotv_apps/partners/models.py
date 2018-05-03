@@ -59,7 +59,7 @@ class MediaPatronage(models.Model):
     active = models.BooleanField(_(u'Aktywny patronat?'), default=False)
     start = models.DateField(_(u'Data początku'))
     end = models.DateField(_(u'Data zakończenia'))
-    contact_email = models.EmailField(_(u'E-mail kontaktowy organizatora'), )
+    contact_email = models.EmailField(_(u'E-mail kontaktowy organizatora'), blank=True)
     city = models.CharField(_(u'Miasto'), max_length=128)
     spot = models.CharField(_(u'Miejsce wydarzenia'), max_length=255,
                             help_text=u'Dokładna nazwa szkoły, targów, lokacji',
