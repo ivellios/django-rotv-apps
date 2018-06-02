@@ -74,6 +74,23 @@ class EpisodeQuerySet(models.QuerySet):
     def after(self, date):
         return self.filter(publish_time__gt=date)
 
+    def get_next_to(self, episode):
+        getit = False
+        for ep in self:
+            if getit:
+                return ep
+            if episode == ep:
+                getit = True
+        if getit:
+            # This would happen when the last
+            # item made getit True
+            return self[0]
+        return False
+
+    def get_prev_to(self, episode):
+        qs = self.reverse()
+        return qs.get_next_to(episode)
+
 
 class PublishedEpisodeManager(models.Manager):
     use_for_related_fields = True
@@ -100,8 +117,8 @@ class Episode(models.Model):
     image = models.ImageField(_(u'Ilustracja'), upload_to='episodes')
     promoted = models.BooleanField(_('Polecany'), default=False)
     active = models.BooleanField(_('Do publikacji?'), default=True,
-                                          help_text=_(u'Niezależnie od daty publikacji film będzie opublikowany '
-                                                        u'tylko jeżeli ta opcja jest zaznaczona'))
+                                 help_text=_(u'Niezależnie od daty publikacji film będzie opublikowany '
+                                             u'tylko jeżeli ta opcja jest zaznaczona'))
     publish_time = models.DateTimeField(_('Publikacja'), default=timezone.now)
 
     objects = EpisodeManager.from_queryset(EpisodeQuerySet)()
@@ -120,30 +137,24 @@ class Episode(models.Model):
         return reverse('program_episode_detail', args=[str(self.program.slug), str(self.slug)])
 
     def get_next_episode(self):
+        return Episode.published.filter(program=self.program).get_next_to(self)
+
+    def get_previous_episode(self):
+        return Episode.published.filter(program=self.program).get_prev_to(self)
+
+    def get_next_episode_in_program(self):
         num = self.number + 1
         try:
             return Episode.published.get(program=self.program, number=num, )
         except Episode.DoesNotExist:
             return None
 
-    def get_previous_episode(self):
+    def get_previous_episode_in_program(self):
         num = self.number - 1
         try:
             return Episode.published.get(program=self.program, number=num, )
         except Episode.DoesNotExist:
             return None
-
-    def get_next_url(self):
-        e = self.get_next_episode()
-        if e:
-            return e.get_absolute_url()
-        return None
-
-    def get_previous_url(self):
-        e = self.get_previous_episode()
-        if e:
-            return e.get_absolute_url()
-        return None
 
     def get_number(self):
         return "{} #{:01d}".format(self.program, self.number)

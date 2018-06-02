@@ -30,3 +30,4 @@ class EpisodeFactory(factory.DjangoModelFactory):
 
     program = factory.SubFactory(ProgramFactory)
     number = factory.Sequence(lambda n: n)
+    slug = factory.Sequence(lambda n: 'slug-' + str(n))

@@ -39,6 +39,32 @@ class EpisodeQuerySetTest(TestCase):
         self.assertEqual(q.count(), 1)
         self.assertIn(self.e2, q)
 
+    def test_get_next_to(self):
+        # given
+        program = ProgramFactory()
+        e1 = EpisodeFactory(publish_time='2018-01-02', program=program)
+        e2 = EpisodeFactory(publish_time='2018-01-01', program=program)
+        qs = Episode.published.filter(program=program)
+
+        # when
+        next = qs.get_next_to(e1)
+
+        # then
+        self.assertEqual(next.id, e2.id)
+
+    def test_get_prev_to(self):
+        # given
+        program = ProgramFactory()
+        e1 = EpisodeFactory(publish_time='2018-01-02', program=program)
+        e2 = EpisodeFactory(publish_time='2018-01-01', program=program)
+        qs = Episode.published.filter(program=program)
+
+        # when
+        prev = qs.get_next_to(e2)
+
+        # then
+        self.assertEqual(prev.id, e1.id)
+
 
 class PublishedEpisodeManagerTest(TestCase):
     def test_queryset_returns_currently_active_episodes(self):
@@ -53,29 +79,19 @@ class PublishedEpisodeManagerTest(TestCase):
 
 class EpisodeTest(TestCase):
     def setUp(self):
-        self.e1 = EpisodeFactory()
-        self.e2 = EpisodeFactory(number=self.e1.number + 1, program=self.e1.program)
-        self.e3 = EpisodeFactory(number=self.e2.number + 1, program=self.e1.program)
+        self.e1 = EpisodeFactory(publish_time='2018-01-03',)
+        self.e2 = EpisodeFactory(publish_time='2018-01-02', program=self.e1.program)
+        self.e3 = EpisodeFactory(publish_time='2018-01-01', program=self.e1.program)
 
     def test_get_next_episode(self):
         e = self.e1.get_next_episode()
 
-        self.assertEqual(e, self.e2)
+        self.assertEqual(e.id, self.e2.id)
 
     def test_get_previous_episode(self):
         e = self.e2.get_previous_episode()
 
-        self.assertEqual(e, self.e1)
-
-    def test_get_next_url(self):
-        url = self.e1.get_next_url()
-
-        self.assertEqual(url, self.e2.get_absolute_url())
-
-    def test_get_previous_url(self):
-        url = self.e2.get_previous_url()
-
-        self.assertEqual(url, self.e1.get_absolute_url())
+        self.assertEqual(e.id, self.e1.id)
 
     def test_get_number(self):
         """
@@ -124,8 +140,13 @@ class ProgramTest(TestCase):
         self.assertEqual(eps.count(), 6)
 
     def test_get_last_episode(self):
-        ep = self.p1.get_last_episode()
+        # given
         last = Episode.published.order_by('-number').filter(program=self.p1).first()
+
+        # when
+        ep = self.p1.get_last_episode()
+
+        # then
         self.assertEqual(ep, last)
 
 
@@ -146,4 +167,4 @@ class UtilsTest(TestCase):
         new_slug = get_slug(Episode, 'slug')
 
         # then
-        self.assertEqual(new_slug, 'slug_1')
+        self.assertEqual(new_slug, 'slug-1')
