@@ -15,12 +15,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='episode',
-            name='playlist',
-            field=models.ManyToManyField(related_name='episodes', through='program.PlaylistEpisode',
-                                         to='program.Playlist'),
-        ),
         migrations.AlterField(
             model_name='episode',
             name='number',
