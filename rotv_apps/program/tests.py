@@ -6,6 +6,7 @@ import faker
 
 from .factories import ProgramFactory, EpisodeFactory, HostFactory
 from .models import Program, Episode, Host
+from .utils import get_slug
 
 faker = faker.Factory.create()
 
@@ -126,3 +127,23 @@ class ProgramTest(TestCase):
         ep = self.p1.get_last_episode()
         last = Episode.published.order_by('-number').filter(program=self.p1).first()
         self.assertEqual(ep, last)
+
+
+class UtilsTest(TestCase):
+
+    def test_get_slug(self):
+        # when
+        new_slug = get_slug(Episode, 'slug')
+
+        # then
+        self.assertEqual(new_slug, 'slug')
+
+    def test_get_slug_exists(self):
+        # given
+        EpisodeFactory.create(slug='slug')
+
+        # when
+        new_slug = get_slug(Episode, 'slug')
+
+        # then
+        self.assertEqual(new_slug, 'slug_1')

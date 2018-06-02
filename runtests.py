@@ -16,8 +16,10 @@ def runtests():
                                       'rotv_apps.navigations',
                                       'rotv_apps.partners',
                                       'rotv_apps.program',
-                                      'rotv_apps.tag_search',])
+                                      'rotv_apps.tag_search',
+                                      ])
     sys.exit(bool(failures))
+
 
 if __name__ == '__main__':
     runtests()

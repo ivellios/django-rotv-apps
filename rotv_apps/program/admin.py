@@ -12,6 +12,7 @@ class EpisodeAdmin(admin.ModelAdmin):
     list_display = ['__unicode__', 'program', 'active', 'publish_time', 'promoted', 'short', ]
     list_filter = ['program', 'publish_time', ]
     actions = ['make_hero_from_episode', 'publish' ]
+    prepopulated_fields = {'slug': ('title',), }
 
     def make_hero_from_episode(self, request, queryset):
         """
@@ -30,7 +31,7 @@ class EpisodeAdmin(admin.ModelAdmin):
                 he.url = e.get_absolute_url()
                 he.button_text = _(u'Zobacz odcinek')
                 he.save()
-            except Hero.DoesNotExist: 
+            except Hero.DoesNotExist:
                 self.message_user(request, u'Rotator główny (index) nie istnieje')
                 return
         self.message_user(request, u'%s utworzonych wpisów rotatora' % queryset.count())

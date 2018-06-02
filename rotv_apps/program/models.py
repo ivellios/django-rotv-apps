@@ -92,6 +92,7 @@ class Episode(models.Model):
     number = models.IntegerField(_(u'Numer odcinka'))
     hosts = models.ManyToManyField(Host, verbose_name=_(u'Prowadzący'), blank=True,)
     title = models.CharField(_(u'Tytuł odcinka'), max_length=255)
+    slug = models.SlugField(_(u'Slug'), unique=True)
     short = models.CharField(_(u'Krótki opis'), max_length=255)
     description = EnhancedTextField(_(u'Opis'))
     new_tags = TagField(_(u'Tagi'), blank=True, null=True)
@@ -116,7 +117,7 @@ class Episode(models.Model):
         return self.title + ' - ' + unicode(self.program) + ' #' + str(self.number)
 
     def get_absolute_url(self):
-        return reverse('program_episode_detail', args=[str(self.program.slug),str(self.number)])
+        return reverse('program_episode_detail', args=[str(self.program.slug), str(self.slug)])
 
     def get_next_episode(self):
         num = self.number + 1

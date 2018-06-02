@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 
-from .program.views import (EpisodeView,
+from .program.views import (EpisodeProgramView, EpisodePlaylistView,
                             ProgramListView, IndexView, EpisodesByTagView,
                             SearchEpisodeByTagsView, EpisodesBySearchedTagsView,
                             ProgramDetailView)
@@ -13,7 +13,10 @@ urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^serie/$', ProgramListView.as_view(), name='program_list'),
     url(r'^program/(?P<slug>[\w_-]+)/?$', ProgramDetailView.as_view(), name='program_detail'),
-    url(r'^ogladaj/(?P<program_slug>[\w_-]+)/(?P<number>\d+)/?$', EpisodeView.as_view(), name='program_episode_detail'),
+    url(r'^watch/program/(?P<program_slug>[\w_-]+)/(?P<episode_slug>\d+)/?$',
+        EpisodeProgramView.as_view(), name='program_episode_detail'),
+    url(r'^watch/playlist/(?P<playlist_slug>[\w_-]+)/(?P<episode_slug>\d+)/?$',
+        EpisodePlaylistView.as_view(), name='playlist_episode_detail'),
     url(r'^odcinki/tag/(?P<tags>[\w\%\&\+\._-]+)/?$', EpisodesByTagView.as_view(), name='program_episode_tag'),
     url(r'^odcinki/szukaj/?$', SearchEpisodeByTagsView.as_view(), name='program_episode_search'),
     url(r'^odcinki/szukaj/(?P<tags>[\w\%\&\+\._-]+)/?$', EpisodesBySearchedTagsView.as_view(),
