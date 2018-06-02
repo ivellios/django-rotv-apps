@@ -131,7 +131,7 @@ class EpisodeManager(models.Manager):
 
 class Episode(models.Model):
     added = models.DateTimeField(_(u'Data dodania'), auto_now_add=True)
-    program = models.ForeignKey(Program, null=True, blank=True)
+    program = models.ForeignKey(Program, blank=True)
     playlist = models.ManyToManyField('program.Playlist', through='program.PlaylistEpisode', related_name='episodes')
     number = models.IntegerField(_(u'Numer odcinka'), blank=True, null=True)
     hosts = models.ManyToManyField(Host, verbose_name=_(u'Prowadzący'), blank=True,)

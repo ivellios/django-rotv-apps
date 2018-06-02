@@ -43,12 +43,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='episode',
             name='program',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='program.Program'),
+            field=models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, to='program.Program'),
         ),
         migrations.AlterField(
             model_name='episode',
             name='slug',
             field=models.SlugField(verbose_name='Slug'),
+        ),
+        migrations.AlterUniqueTogether(
+            name='episode',
+            unique_together=set([]),
         ),
         migrations.AddField(
             model_name='playlistepisode',
