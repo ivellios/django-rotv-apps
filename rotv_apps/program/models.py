@@ -66,12 +66,16 @@ class Host(models.Model):
 
 class Playlist(models.Model):
     name = models.CharField(_(u'Name'), max_length=255)
-    slug = models.SlugField(_(u'Slug'), unique=True)
+    slug = models.SlugField(_(u'Slug'))
     description = EnhancedTextField(_('Description'), blank=True, null=True)
     new_tags = TagField(_(u'Tags'), blank=True, null=True)
 
     def __unicode__(self):
         return self.name
+
+    @property
+    def sorted_episodes(self):
+        return self.episodes.order_by('playlist_episodes')
 
 
 class PlaylistEpisode(models.Model):
@@ -132,7 +136,7 @@ class Episode(models.Model):
     number = models.IntegerField(_(u'Numer odcinka'), blank=True, null=True)
     hosts = models.ManyToManyField(Host, verbose_name=_(u'Prowadzący'), blank=True,)
     title = models.CharField(_(u'Tytuł odcinka'), max_length=255)
-    slug = models.SlugField(_(u'Slug'), unique=True)
+    slug = models.SlugField(_(u'Slug'))
     short = models.CharField(_(u'Krótki opis'), max_length=255)
     description = EnhancedTextField(_(u'Opis'))
     new_tags = TagField(_(u'Tagi'), blank=True, null=True)
