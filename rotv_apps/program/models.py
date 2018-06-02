@@ -66,7 +66,7 @@ class Host(models.Model):
 
 class Playlist(models.Model):
     name = models.CharField(_(u'Name'), max_length=255)
-    slug = models.SlugField(_(u'Slug'))
+    slug = models.SlugField(_(u'Slug'), unique=True)
     description = EnhancedTextField(_('Description'), blank=True, null=True)
     new_tags = TagField(_(u'Tags'), blank=True, null=True)
 
