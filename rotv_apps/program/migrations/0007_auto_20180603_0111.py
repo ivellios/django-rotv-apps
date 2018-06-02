@@ -50,10 +50,6 @@ class Migration(migrations.Migration):
             name='slug',
             field=models.SlugField(verbose_name='Slug'),
         ),
-        migrations.AlterUniqueTogether(
-            name='episode',
-            unique_together=set([]),
-        ),
         migrations.AddField(
             model_name='playlistepisode',
             name='episode',
