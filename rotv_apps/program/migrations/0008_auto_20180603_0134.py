@@ -15,28 +15,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='episode',
-            name='slug',
-            field=models.SlugField(unique=True, verbose_name='Slug'),
-        ),
-        migrations.AlterField(
-            model_name='program',
-            name='slug',
-            field=models.SlugField(unique=True, verbose_name='Slug'),
-        ),
-        migrations.AddField(
-            model_name='playlistepisode',
-            name='episode',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='playlist_episodes',
-                                    to='program.Episode'),
-        ),
-        migrations.AddField(
-            model_name='playlistepisode',
-            name='playlist',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='playlist_episodes',
-                                    to='program.Playlist'),
-        ),
         migrations.AddField(
             model_name='episode',
             name='playlist',
