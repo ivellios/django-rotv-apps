@@ -15,26 +15,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Playlist',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, verbose_name='Name')),
-                ('slug', models.SlugField(unique=True, verbose_name='Slug')),
-                ('description', tinymce.models.HTMLField(blank=True, null=True, verbose_name='Description')),
-                ('new_tags', tagging.fields.TagField(blank=True, max_length=255, null=True, verbose_name='Tags')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='PlaylistEpisode',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('position', models.PositiveSmallIntegerField(null=True, verbose_name='Position')),
-            ],
-            options={
-                'ordering': ['position'],
-            },
-        ),
         migrations.AlterField(
             model_name='episode',
             name='slug',
