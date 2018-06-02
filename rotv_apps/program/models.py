@@ -105,8 +105,8 @@ class EpisodeManager(models.Manager):
 
 class Episode(models.Model):
     added = models.DateTimeField(_(u'Data dodania'), auto_now_add=True)
-    program = models.ForeignKey(Program)
-    number = models.IntegerField(_(u'Numer odcinka'))
+    program = models.ForeignKey(Program, null=True, blank=True)
+    number = models.IntegerField(_(u'Numer odcinka'), blank=True, null=True)
     hosts = models.ManyToManyField(Host, verbose_name=_(u'Prowadzący'), blank=True,)
     title = models.CharField(_(u'Tytuł odcinka'), max_length=255)
     slug = models.SlugField(_(u'Slug'), unique=True)
@@ -128,36 +128,48 @@ class Episode(models.Model):
         verbose_name = _(u'Odcinek')
         verbose_name_plural = _(u'Odcinki')
         ordering = ['-publish_time', ]
-        unique_together = (('number', 'program'),)
 
     def __unicode__(self):
-        return self.title + ' - ' + unicode(self.program) + ' #' + str(self.number)
+        return self.title + ' - ' + self.get_number()
 
     def get_absolute_url(self):
-        return reverse('program_episode_detail', args=[str(self.program.slug), str(self.slug)])
+        if self.program:
+            return reverse('program_episode_detail', args=[str(self.program.slug), str(self.slug)])
+        else:
+            return reverse('episode_detail', args=[str(self.slug)])
 
     def get_next_episode(self):
-        return Episode.published.filter(program=self.program).get_next_to(self)
+        if self.program:
+            return Episode.published.filter(program=self.program).get_next_to(self)
+        else:
+            return None
 
     def get_previous_episode(self):
-        return Episode.published.filter(program=self.program).get_prev_to(self)
+        if self.program:
+            return Episode.published.filter(program=self.program).get_prev_to(self)
+        else:
+            return None
 
     def get_next_episode_in_program(self):
-        num = self.number + 1
-        try:
-            return Episode.published.get(program=self.program, number=num, )
-        except Episode.DoesNotExist:
-            return None
+        if self.program:
+            num = self.number + 1
+            try:
+                return Episode.published.get(program=self.program, number=num, )
+            except Episode.DoesNotExist:
+                pass
+        return None
 
     def get_previous_episode_in_program(self):
-        num = self.number - 1
-        try:
-            return Episode.published.get(program=self.program, number=num, )
-        except Episode.DoesNotExist:
-            return None
+        if self.program:
+            num = self.number - 1
+            try:
+                return Episode.published.get(program=self.program, number=num, )
+            except Episode.DoesNotExist:
+                pass
+        return None
 
     def get_number(self):
-        return "{} #{:01d}".format(self.program, self.number)
+        return "{} #{:01d}".format(self.program, self.number) if self.program and self.number else ""
 
 
 register(Program)

@@ -12,8 +12,18 @@ from ..heros.models import HeroEntry
 from .models import Episode, Program
 
 
-class EpisodeProgramView(generic.TemplateView):
+class EpisodeView(generic.TemplateView):
     template_name = 'program/episode_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(EpisodeView, self).get_context_data(**kwargs)
+        context['episode'] = get_object_or_404(Episode,
+                                               slug=kwargs.get('episode_slug'))
+        return context
+
+
+class EpisodeProgramView(generic.TemplateView):
+    template_name = 'program/program_episode_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super(EpisodeProgramView, self).get_context_data(**kwargs)
@@ -24,7 +34,7 @@ class EpisodeProgramView(generic.TemplateView):
 
 
 class EpisodePlaylistView(generic.TemplateView):
-    template_name = 'program/episode_detail.html'
+    template_name = 'program/playlist_episode_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super(EpisodePlaylistView, self).get_context_data(**kwargs)

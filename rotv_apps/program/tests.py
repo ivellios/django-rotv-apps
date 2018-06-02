@@ -123,7 +123,7 @@ class ProgramTest(TestCase):
 
     def test_get_aboslute_url(self):
         url = self.p1.get_absolute_url()
-        self.assertEqual(url, '/program/{}'.format(self.p1.slug))
+        self.assertEqual(url, '/series/{}'.format(self.p1.slug))
 
     def test_get_episode_list(self):
         """
