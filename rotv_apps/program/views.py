@@ -9,7 +9,7 @@ from ..partners.models import Partner, MediaPatron, MediaPatronage, Colaborator,
 from ..blog.models import Entry
 from ..heros.models import HeroEntry
 
-from .models import Episode, Program
+from .models import Episode, Program, Playlist
 
 
 class EpisodeView(generic.TemplateView):
@@ -41,6 +41,8 @@ class EpisodePlaylistView(generic.TemplateView):
         context['episode'] = get_object_or_404(Episode,
                                                playlist__slug=kwargs.get('playlist_slug'),
                                                slug=kwargs.get('episode_slug'))
+        context['playlist'] = get_object_or_404(Playlist,
+                                                slug=kwargs.get('playlist_slug'),)
         return context
 
 

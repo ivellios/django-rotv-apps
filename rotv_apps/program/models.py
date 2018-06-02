@@ -64,6 +64,28 @@ class Host(models.Model):
         ordering = ['name', ]
 
 
+class Playlist(models.Model):
+    name = models.CharField(_(u'Name'), max_length=255)
+    slug = models.SlugField(_(u'Slug'))
+    description = EnhancedTextField(_('Description'), blank=True, null=True)
+    new_tags = TagField(_(u'Tags'), blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class PlaylistEpisode(models.Model):
+    episode = models.ForeignKey('program.Episode', related_name='playlist_episodes')
+    playlist = models.ForeignKey('program.Playlist', related_name='playlist_episodes')
+    position = models.PositiveSmallIntegerField(_('Position'), null=True)
+
+    class Meta:
+        ordering = ['position']
+
+    def __unicode__(self):
+        return self.playlist.name
+
+
 class EpisodeQuerySet(models.QuerySet):
     def active(self):
         return self.filter(active=True)
@@ -106,6 +128,7 @@ class EpisodeManager(models.Manager):
 class Episode(models.Model):
     added = models.DateTimeField(_(u'Data dodania'), auto_now_add=True)
     program = models.ForeignKey(Program, null=True, blank=True)
+    playlist = models.ManyToManyField('program.Playlist', through='program.PlaylistEpisode', related_name='episodes')
     number = models.IntegerField(_(u'Numer odcinka'), blank=True, null=True)
     hosts = models.ManyToManyField(Host, verbose_name=_(u'Prowadzący'), blank=True,)
     title = models.CharField(_(u'Tytuł odcinka'), max_length=255)
@@ -169,8 +192,9 @@ class Episode(models.Model):
         return None
 
     def get_number(self):
-        return "{} #{:01d}".format(self.program, self.number) if self.program and self.number else ""
+        return u"{} #{:01d}".format(self.program, self.number) if self.program and self.number else u""
 
 
 register(Program)
 register(Episode)
+register(Playlist)

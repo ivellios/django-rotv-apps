@@ -5,14 +5,27 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from ..heros.models import HeroEntry, Hero
-from .models import Episode, Program, Host
+from .models import Episode, Program, Host, PlaylistEpisode, Playlist
+
+
+class PlaylistEpisodeModelOptions(admin.TabularInline):
+    fields = ['episode', 'playlist', 'position', ]
+    model = PlaylistEpisode
+
+
+class SortablePlaylistEpisodeModelOptions(PlaylistEpisodeModelOptions):
+    sortable_field_name = 'position'
 
 
 class EpisodeAdmin(admin.ModelAdmin):
     list_display = ['__unicode__', 'program', 'active', 'publish_time', 'promoted', 'short', ]
     list_filter = ['program', 'publish_time', ]
-    actions = ['make_hero_from_episode', 'publish' ]
+    actions = ['make_hero_from_episode', 'publish', ]
     prepopulated_fields = {'slug': ('title',), }
+    inlines = [
+        PlaylistEpisodeModelOptions
+    ]
+    exclude = ['playlist', ]
 
     def make_hero_from_episode(self, request, queryset):
         """
@@ -54,6 +67,14 @@ class HostAdmin(admin.ModelAdmin):
     pass
 
 
+class PlaylistAdmin(admin.ModelAdmin):
+    list_display = ['__unicode__', ]
+    prepopulated_fields = {'slug': ('name',), }
+
+    inlines = [SortablePlaylistEpisodeModelOptions, ]
+
+
 admin.site.register(Host, HostAdmin)
 admin.site.register(Episode, EpisodeAdmin)
 admin.site.register(Program, ProgramAdmin)
+admin.site.register(Playlist, PlaylistAdmin)
