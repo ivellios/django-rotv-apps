@@ -79,8 +79,8 @@ class Playlist(models.Model):
 
 
 class PlaylistEpisode(models.Model):
-    episode = models.ForeignKey('program.Episode', related_name='playlist_episodes')
-    playlist = models.ForeignKey('program.Playlist', related_name='playlist_episodes')
+    episode_fk = models.ForeignKey('program.Episode', related_name='playlist_episodes')
+    playlist_fk = models.ForeignKey('program.Playlist', related_name='playlist_episodes')
     position = models.PositiveSmallIntegerField(_('Position'), null=True)
 
     class Meta:
