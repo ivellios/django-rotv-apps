@@ -84,7 +84,12 @@ class PlaylistEpisode(models.Model):
     position = models.PositiveSmallIntegerField(_('Position'), default=0)
 
     class Meta:
-        ordering = ['position']
+        ordering = ['position', ]
+        unique_together = (
+            ('episode', 'playlist', 'position'),
+        )
+
+
 
     def __unicode__(self):
         return self.playlist.name
