@@ -30,3 +30,9 @@ class Migration(migrations.Migration):
             unique_together=set([('episode', 'playlist', 'position')]),
         ),
     ]
+
+    def apply(self, project_state, schema_editor, collect_sql=False):
+        try:
+            super(Migration, self).apply(project_state, schema_editor, collect_sql=collect_sql)
+        except Exception:
+            pass
