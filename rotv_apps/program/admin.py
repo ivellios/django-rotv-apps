@@ -14,7 +14,9 @@ class PlaylistEpisodeModelOptions(admin.TabularInline):
 
 
 class SortablePlaylistEpisodeModelOptions(PlaylistEpisodeModelOptions):
+    fields = ['episode', 'playlist', 'position', 'episode_slug']
     sortable_field_name = 'position'
+    readonly_fields = ['episode_slug']
 
 
 class EpisodeAdmin(admin.ModelAdmin):

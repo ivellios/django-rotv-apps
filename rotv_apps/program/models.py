@@ -117,6 +117,9 @@ class PlaylistEpisode(models.Model):
     def __unicode__(self):
         return self.playlist.name
 
+    def episode_slug(self):
+        return self.episode.slug
+
 
 class EpisodeQuerySet(models.QuerySet):
     def active(self):
