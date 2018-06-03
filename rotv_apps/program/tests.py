@@ -5,7 +5,8 @@ from django.utils import timezone
 import faker
 
 from .factories import ProgramFactory, EpisodeFactory, HostFactory
-from .models import Program, Episode, Host
+from .models import Program, Episode, Host, Playlist
+from .utils import get_slug
 
 faker = faker.Factory.create()
 
@@ -38,6 +39,32 @@ class EpisodeQuerySetTest(TestCase):
         self.assertEqual(q.count(), 1)
         self.assertIn(self.e2, q)
 
+    def test_get_next_to(self):
+        # given
+        program = ProgramFactory()
+        e1 = EpisodeFactory(publish_time='2018-01-02', program=program)
+        e2 = EpisodeFactory(publish_time='2018-01-01', program=program)
+        qs = Episode.published.filter(program=program)
+
+        # when
+        next = qs.get_next_to(e1)
+
+        # then
+        self.assertEqual(next.id, e2.id)
+
+    def test_get_prev_to(self):
+        # given
+        program = ProgramFactory()
+        e1 = EpisodeFactory(publish_time='2018-01-02', program=program)
+        e2 = EpisodeFactory(publish_time='2018-01-01', program=program)
+        qs = Episode.published.filter(program=program)
+
+        # when
+        prev = qs.get_next_to(e2)
+
+        # then
+        self.assertEqual(prev.id, e1.id)
+
 
 class PublishedEpisodeManagerTest(TestCase):
     def test_queryset_returns_currently_active_episodes(self):
@@ -52,29 +79,19 @@ class PublishedEpisodeManagerTest(TestCase):
 
 class EpisodeTest(TestCase):
     def setUp(self):
-        self.e1 = EpisodeFactory()
-        self.e2 = EpisodeFactory(number=self.e1.number + 1, program=self.e1.program)
-        self.e3 = EpisodeFactory(number=self.e2.number + 1, program=self.e1.program)
+        self.e1 = EpisodeFactory(publish_time='2018-01-03',)
+        self.e2 = EpisodeFactory(publish_time='2018-01-02', program=self.e1.program)
+        self.e3 = EpisodeFactory(publish_time='2018-01-01', program=self.e1.program)
 
     def test_get_next_episode(self):
         e = self.e1.get_next_episode()
 
-        self.assertEqual(e, self.e2)
+        self.assertEqual(e.id, self.e2.id)
 
     def test_get_previous_episode(self):
         e = self.e2.get_previous_episode()
 
-        self.assertEqual(e, self.e1)
-
-    def test_get_next_url(self):
-        url = self.e1.get_next_url()
-
-        self.assertEqual(url, self.e2.get_absolute_url())
-
-    def test_get_previous_url(self):
-        url = self.e2.get_previous_url()
-
-        self.assertEqual(url, self.e1.get_absolute_url())
+        self.assertEqual(e.id, self.e1.id)
 
     def test_get_number(self):
         """
@@ -106,7 +123,7 @@ class ProgramTest(TestCase):
 
     def test_get_aboslute_url(self):
         url = self.p1.get_absolute_url()
-        self.assertEqual(url, '/program/{}'.format(self.p1.slug))
+        self.assertEqual(url, '/series/{}'.format(self.p1.slug))
 
     def test_get_episode_list(self):
         """
@@ -123,6 +140,51 @@ class ProgramTest(TestCase):
         self.assertEqual(eps.count(), 6)
 
     def test_get_last_episode(self):
-        ep = self.p1.get_last_episode()
+        # given
         last = Episode.published.order_by('-number').filter(program=self.p1).first()
+
+        # when
+        ep = self.p1.get_last_episode()
+
+        # then
         self.assertEqual(ep, last)
+
+
+class UtilsTest(TestCase):
+
+    def test_get_slug(self):
+        # when
+        new_slug = get_slug(Episode, 'slug')
+
+        # then
+        self.assertEqual(new_slug, 'slug')
+
+    def test_get_slug_exists(self):
+        # given
+        EpisodeFactory.create(slug='slug')
+
+        # when
+        new_slug = get_slug(Episode, 'slug')
+
+        # then
+        self.assertEqual(new_slug, 'slug-1')
+
+
+class PlaylistManagerTest(TestCase):
+    def test_create_from_program(self):
+        # given
+        program = ProgramFactory()
+        e1 = EpisodeFactory(program=program, number=1)
+        e2 = EpisodeFactory(program=program, number=2)
+        e3 = EpisodeFactory(program=program, number=3)
+
+        # when
+        playlist = Playlist.objects.create_from_program(program)
+
+        # then
+        self.assertEqual(playlist.episodes.count(), 3)
+        self.assertEqual(playlist.playlist_episodes.first().position, e1.number)
+        self.assertEqual(playlist.playlist_episodes.all()[1].position, e2.number)
+        self.assertEqual(playlist.playlist_episodes.all()[2].position, e3.number)
+        self.assertEqual(playlist.name, program.name)
+        self.assertEqual(playlist.description, program.desc)

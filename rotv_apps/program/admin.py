@@ -5,13 +5,29 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from ..heros.models import HeroEntry, Hero
-from .models import Episode, Program, Host
+from .models import Episode, Program, Host, PlaylistEpisode, Playlist
+
+
+class PlaylistEpisodeModelOptions(admin.TabularInline):
+    fields = ['episode', 'playlist', 'position', ]
+    model = PlaylistEpisode
+
+
+class SortablePlaylistEpisodeModelOptions(PlaylistEpisodeModelOptions):
+    fields = ['episode', 'playlist', 'position', 'episode_slug']
+    sortable_field_name = 'position'
+    readonly_fields = ['episode_slug']
 
 
 class EpisodeAdmin(admin.ModelAdmin):
     list_display = ['__unicode__', 'program', 'active', 'publish_time', 'promoted', 'short', ]
     list_filter = ['program', 'publish_time', ]
-    actions = ['make_hero_from_episode', 'publish' ]
+    actions = ['make_hero_from_episode', 'publish', ]
+    prepopulated_fields = {'slug': ('title',), }
+    inlines = [
+        PlaylistEpisodeModelOptions
+    ]
+    exclude = ['playlist', ]
 
     def make_hero_from_episode(self, request, queryset):
         """
@@ -30,7 +46,7 @@ class EpisodeAdmin(admin.ModelAdmin):
                 he.url = e.get_absolute_url()
                 he.button_text = _(u'Zobacz odcinek')
                 he.save()
-            except Hero.DoesNotExist: 
+            except Hero.DoesNotExist:
                 self.message_user(request, u'Rotator główny (index) nie istnieje')
                 return
         self.message_user(request, u'%s utworzonych wpisów rotatora' % queryset.count())
@@ -46,13 +62,38 @@ class EpisodeAdmin(admin.ModelAdmin):
 
 
 class ProgramAdmin(admin.ModelAdmin):
-    pass
+    actions = ['migrate_to_playlist', ]
+
+    def migrate_to_playlist(self, request, queryset):
+        added_playlists = 0
+        added_episodes = 0
+        for program in queryset:
+            playlist = Playlist.objects.create_from_program(program)
+            added_playlists += 1
+            added_episodes += playlist.episodes.count()
+
+        from django.contrib import messages
+        messages.success(request, 'Added {} playlists with {} episodes'.format(
+            added_playlists,
+            added_episodes
+        ))
+
+
+    migrate_to_playlist.short_description = 'Migrate episodes from Program to Playlist'
 
 
 class HostAdmin(admin.ModelAdmin):
     pass
 
 
+class PlaylistAdmin(admin.ModelAdmin):
+    list_display = ['__unicode__', ]
+    prepopulated_fields = {'slug': ('name',), }
+
+    inlines = [SortablePlaylistEpisodeModelOptions, ]
+
+
 admin.site.register(Host, HostAdmin)
 admin.site.register(Episode, EpisodeAdmin)
 admin.site.register(Program, ProgramAdmin)
+admin.site.register(Playlist, PlaylistAdmin)
