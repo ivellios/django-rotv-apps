@@ -60,7 +60,24 @@ class EpisodeAdmin(admin.ModelAdmin):
 
 
 class ProgramAdmin(admin.ModelAdmin):
-    pass
+    actions = ['migrate_to_playlist', ]
+
+    def migrate_to_playlist(self, request, queryset):
+        added_playlists = 0
+        added_episodes = 0
+        for program in queryset:
+            playlist = Playlist.objects.create_from_program(program)
+            added_playlists += 1
+            added_episodes += playlist.episodes.count()
+
+        from django.contrib import messages
+        messages.success(request, 'Added {} playlists with {} episodes'.format(
+            added_playlists,
+            added_episodes
+        ))
+
+
+    migrate_to_playlist.short_description = 'Migrate episodes from Program to Playlist'
 
 
 class HostAdmin(admin.ModelAdmin):

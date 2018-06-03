@@ -5,7 +5,7 @@ from django.utils import timezone
 import faker
 
 from .factories import ProgramFactory, EpisodeFactory, HostFactory
-from .models import Program, Episode, Host
+from .models import Program, Episode, Host, Playlist
 from .utils import get_slug
 
 faker = faker.Factory.create()
@@ -168,3 +168,23 @@ class UtilsTest(TestCase):
 
         # then
         self.assertEqual(new_slug, 'slug-1')
+
+
+class PlaylistManagerTest(TestCase):
+    def test_create_from_program(self):
+        # given
+        program = ProgramFactory()
+        e1 = EpisodeFactory(program=program, number=1)
+        e2 = EpisodeFactory(program=program, number=2)
+        e3 = EpisodeFactory(program=program, number=3)
+
+        # when
+        playlist = Playlist.objects.create_from_program(program)
+
+        # then
+        self.assertEqual(playlist.episodes.count(), 3)
+        self.assertEqual(playlist.playlist_episodes.first().position, e1.number)
+        self.assertEqual(playlist.playlist_episodes.all()[1].position, e2.number)
+        self.assertEqual(playlist.playlist_episodes.all()[2].position, e3.number)
+        self.assertEqual(playlist.name, program.name)
+        self.assertEqual(playlist.description, program.desc)

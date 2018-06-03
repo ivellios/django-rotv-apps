@@ -2,6 +2,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
 from tagging.fields import TagField
@@ -64,11 +65,35 @@ class Host(models.Model):
         ordering = ['name', ]
 
 
+class PlaylistManager(models.Manager):
+
+    def create_from_program(self, program):
+        """
+        creates playlist based on the data from the program.
+        :param program: Program
+        :return: Playlist
+        """
+        episodes = program.episode_set.all()
+        playlist = self.create(name=program.name,
+                               slug=slugify(program.name),
+                               description=program.desc,
+                               new_tags=program.new_tags)
+
+        for episode in episodes:
+            PlaylistEpisode.objects.create(playlist=playlist,
+                                           episode=episode,
+                                           position=episode.number)
+
+        return playlist
+
+
 class Playlist(models.Model):
     name = models.CharField(_(u'Name'), max_length=255)
     slug = models.SlugField(_(u'Slug'), unique=True)
     description = EnhancedTextField(_('Description'), blank=True, null=True)
     new_tags = TagField(_(u'Tags'), blank=True, null=True)
+
+    objects = PlaylistManager()
 
     def __unicode__(self):
         return self.name
