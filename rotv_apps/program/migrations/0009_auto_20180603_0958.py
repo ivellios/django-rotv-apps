@@ -18,8 +18,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('position', models.PositiveSmallIntegerField(null=True, verbose_name='Position')),
-                ('episode_fk', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='playlist_episodes', to='program.Episode')),
-                ('playlist_fk', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='playlist_episodes', to='program.Playlist')),
+                ('episode', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='playlist_episodes', to='program.Episode')),
+                ('playlist', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='playlist_episodes', to='program.Playlist')),
             ],
             options={
                 'ordering': ['position'],
