@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
+from django.core.mail import send_mail
 from django.db import models
+from django.template import Context
+from django.template.loader import get_template
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -55,7 +59,7 @@ class MediaPatronage(models.Model):
     active = models.BooleanField(_(u'Aktywny patronat?'), default=False)
     start = models.DateField(_(u'Data początku'))
     end = models.DateField(_(u'Data zakończenia'))
-    contact_email = models.EmailField(_(u'E-mail kontaktowy organizatora'), )
+    contact_email = models.EmailField(_(u'E-mail kontaktowy organizatora'), blank=True)
     city = models.CharField(_(u'Miasto'), max_length=128)
     spot = models.CharField(_(u'Miejsce wydarzenia'), max_length=255,
                             help_text=u'Dokładna nazwa szkoły, targów, lokacji',
@@ -75,6 +79,9 @@ class MediaPatronage(models.Model):
     additional_notes = models.TextField(_(u'Informacje dodatkowe'),
                                         help_text=u'Opis wydarzenia, charakter, grupa docelowa i inne.',
                                         blank=True)
+    created = models.DateTimeField(_(u'Dodano'), auto_now_add=True,)
+    modified = models.DateTimeField(_(u'Zmieniono'), auto_now=True,)
+    activated = models.DateTimeField(_(u'Aktywowano'), null=True, blank=True)
 
     objects = MediaPatronageManager.from_queryset(MediaPatronageQuerySet)()
     future = FutureMediaPatronageManager.from_queryset(MediaPatronageQuerySet)()
@@ -86,6 +93,23 @@ class MediaPatronage(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def send_create_notification_mail(self):
+        content = get_template('partners/emails/mediapatronage_created.html').render({
+            'event': self,
+        })
+        send_mail(
+            u'Nowe zgłoszenie wydarzenia do patronatu - {}'.format(self.name),
+            content,
+            'no-reply@raportobiezyswiata.tv',
+            settings.PATRONAGE_MANAGERS,
+            html_message=content,
+            fail_silently=True,
+        )
+
+    def get_admin_url(self):
+        return "{admin_root}/admin/partners/mediapatronage/{pk}".format(admin_root=settings.ROOT_URL,
+                                                                        pk=self.pk)
 
 
 class NormalMediaPatronage(models.Model):
@@ -145,4 +169,3 @@ class Colaborator(models.Model):
 
     def __unicode__(self):
         return self.name
-

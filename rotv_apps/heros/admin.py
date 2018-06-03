@@ -7,7 +7,7 @@ from models import Hero, HeroEntry
 
 
 class HeroEntryAdmin(admin.ModelAdmin):
-    list_display = ['title', 'subtitle', 'is_active', 'added', 'modified', 'sort', 'hero',]
+    list_display = ['title', 'subtitle', 'is_active', 'publish_time', 'added', 'modified', 'sort', 'hero']
     list_filter = ['hero']
     search_fields = ['title', 'subtitle', 'text', ]
     raw_id_fields = ('hero',)
@@ -19,8 +19,9 @@ class HeroEntryAdmin(admin.ModelAdmin):
         queryset.update(sort = 100)
 
 
-class HeroEntryInline(admin.StackedInline):
+class HeroEntryInline(admin.TabularInline):
     model = HeroEntry
+    fields = ['title', 'subtitle', 'is_active', 'url', 'text']
 
 
 class HeroAdmin(admin.ModelAdmin):
