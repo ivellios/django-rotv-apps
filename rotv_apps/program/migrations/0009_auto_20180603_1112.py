@@ -18,21 +18,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('position', models.PositiveSmallIntegerField(default=0, verbose_name='Position')),
-                ('episode', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='playlist_episodes', to='program.Episode')),
                 ('playlist', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='playlist_episodes', to='program.Playlist')),
             ],
             options={
                 'ordering': ['position'],
             },
         ),
-        migrations.AlterUniqueTogether(
-            name='playlistepisode',
-            unique_together=set([('episode', 'playlist', 'position')]),
-        ),
     ]
-
-    def apply(self, project_state, schema_editor, collect_sql=False):
-        try:
-            super(Migration, self).apply(project_state, schema_editor, collect_sql=collect_sql)
-        except Exception:
-            pass
