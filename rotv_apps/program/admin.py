@@ -12,9 +12,9 @@ class PlaylistEpisodeModelOptions(admin.TabularInline):
     fields = ['episode', 'playlist', 'position', ]
     model = PlaylistEpisode
 
-
-class SortablePlaylistEpisodeModelOptions(PlaylistEpisodeModelOptions):
-    sortable_field_name = 'position'
+#
+# class SortablePlaylistEpisodeModelOptions(PlaylistEpisodeModelOptions):
+#     sortable_field_name = 'position'
 
 
 class EpisodeAdmin(admin.ModelAdmin):
@@ -71,7 +71,7 @@ class PlaylistAdmin(admin.ModelAdmin):
     list_display = ['__unicode__', ]
     prepopulated_fields = {'slug': ('name',), }
 
-    inlines = [SortablePlaylistEpisodeModelOptions, ]
+    # inlines = [SortablePlaylistEpisodeModelOptions, ]
 
 
 admin.site.register(Host, HostAdmin)
