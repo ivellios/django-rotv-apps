@@ -8,9 +8,9 @@ from ..heros.models import HeroEntry, Hero
 from .models import Episode, Program, Host, PlaylistEpisode, Playlist
 
 
-class PlaylistEpisodeModelOptions(admin.TabularInline):
-    fields = ['episode', 'playlist', 'position', ]
-    model = PlaylistEpisode
+# class PlaylistEpisodeModelOptions(admin.TabularInline):
+#     fields = ['episode', 'playlist', 'position', ]
+#     model = PlaylistEpisode
 
 #
 # class SortablePlaylistEpisodeModelOptions(PlaylistEpisodeModelOptions):
@@ -22,10 +22,10 @@ class EpisodeAdmin(admin.ModelAdmin):
     list_filter = ['program', 'publish_time', ]
     actions = ['make_hero_from_episode', 'publish', ]
     prepopulated_fields = {'slug': ('title',), }
-    inlines = [
-        PlaylistEpisodeModelOptions
-    ]
-    exclude = ['playlist', ]
+    # inlines = [
+    #     PlaylistEpisodeModelOptions
+    # ]
+    # exclude = ['playlist', ]
 
     def make_hero_from_episode(self, request, queryset):
         """
