@@ -18,16 +18,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('position', models.PositiveSmallIntegerField(null=True, verbose_name='Position')),
-                ('episode', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='playlist_episodes', to='program.Episode')),
+                ('episode', models.ForeignKey(on_delete=f, related_name='playlist_episodes', to='program.Episode')),
                 ('playlist', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='program.Playlist')),
             ],
             options={
                 'ordering': ['position'],
             },
-        ),
-        migrations.AddField(
-            model_name='episode',
-            name='playlist',
-            field=models.ManyToManyField(related_name='episodes', through='program.PlaylistEpisode', to='program.Playlist'),
         ),
     ]
