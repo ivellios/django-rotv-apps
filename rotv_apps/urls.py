@@ -38,4 +38,5 @@ urlpatterns = [
     url(r'^szukaj/(?P<tags>[\w\%\&\+\._-]+)/?$', SearchResultsView.as_view(), name='tag_search_results'),
 
     url(r'^tinymce/', include('tinymce.urls')),
+    url(r'^', include('rotv_apps.shortener.urls')),
 ]

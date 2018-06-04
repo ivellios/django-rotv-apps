@@ -29,6 +29,7 @@ setup(
         'django-tinymce4-lite',
         'factory_boy',
         'tox',
+        'mock',
     ],
     depency_links = [
         'git+https://git@github.com/ivellios/django-tinymce4-lite.git#egg=django-tinymce4-lite',
