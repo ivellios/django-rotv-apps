@@ -27,6 +27,7 @@ setup(
         'django-grappelli>=2.10.1',
         'django-adminactions',
         'django-tinymce4-lite',
+        'yturl==2.0.2',
         'factory_boy',
         'tox',
         'mock',
