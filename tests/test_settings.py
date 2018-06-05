@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'rotv_apps.partners',
     'rotv_apps.program',
     'rotv_apps.tag_search',
+    'rotv_apps.shortener',
 ]
 
 ROOT_URLCONF = 'tests.urls'

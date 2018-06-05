@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-rotv-apps',
-    version='2.4.0',
+    version='2.5.0',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',  # example license
@@ -29,6 +29,7 @@ setup(
         'django-tinymce4-lite',
         'factory_boy',
         'tox',
+        'mock',
     ],
     depency_links = [
         'git+https://git@github.com/ivellios/django-tinymce4-lite.git#egg=django-tinymce4-lite',
