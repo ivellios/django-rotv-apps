@@ -3,6 +3,7 @@
 from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
+from yturl import video_id_from_url
 
 from ..heros.models import HeroEntry, Hero
 from .models import Episode, Program, Host, PlaylistEpisode, Playlist
@@ -59,6 +60,12 @@ class EpisodeAdmin(admin.ModelAdmin):
         queryset.update(active = True)
         self.message_user(request, u'%s opublikowanych odcinków' % queryset.count())
     publish.short_decription = u'Publikuj odcinek'
+
+    def save_model(self, request, instance, form, change):
+        instance.youtube_code = video_id_from_url(form.cleaned_data['youtube_code'])
+        instance.save()
+        form.save_m2m()
+        return instance
 
 
 class ProgramAdmin(admin.ModelAdmin):
