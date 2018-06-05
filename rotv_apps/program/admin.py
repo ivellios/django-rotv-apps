@@ -103,7 +103,7 @@ class PlaylistAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',), }
     raw_id_fields = ('related_events',)
     autocomplete_lookup_fields = {
-        'fk': ['related_events'],
+        'm2m': ['related_events'],
     }
 
     inlines = [SortablePlaylistEpisodeModelOptions, ]
