@@ -101,9 +101,9 @@ class HostAdmin(admin.ModelAdmin):
 class PlaylistAdmin(admin.ModelAdmin):
     list_display = ['__unicode__', ]
     prepopulated_fields = {'slug': ('name',), }
-    raw_id_fields = ('related_event',)
+    raw_id_fields = ('related_events',)
     autocomplete_lookup_fields = {
-        'fk': ['related_event'],
+        'fk': ['related_events'],
     }
 
     inlines = [SortablePlaylistEpisodeModelOptions, ]

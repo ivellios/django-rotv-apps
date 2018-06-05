@@ -92,7 +92,7 @@ class Playlist(models.Model):
     slug = models.SlugField(_(u'Slug'), unique=True)
     description = EnhancedTextField(_('Description'), blank=True, null=True)
     new_tags = TagField(_(u'Tags'), blank=True, null=True)
-    related_event = models.ForeignKey('partners.MediaPatronage', blank=True, null=True)
+    related_events = models.ManyToManyField('partners.MediaPatronage', blank=True, null=True, related_name='playlists')
 
     objects = PlaylistManager()
 
