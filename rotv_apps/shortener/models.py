@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 def get_short_hash():
     hash_base = timezone.now()
     hasher = hashlib.sha1(str(hash_base))
-    hash_string = base64.urlsafe_b64encode(hasher.digest()[0:10]).replace('=', '')
+    hash_string = base64.urlsafe_b64encode(hasher.digest()[:6]).replace('=', '')
     try:
         ShortenedURL.objects.get(slug=hash_string)
     except ShortenedURL.DoesNotExist:
