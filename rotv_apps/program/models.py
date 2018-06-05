@@ -92,6 +92,7 @@ class Playlist(models.Model):
     slug = models.SlugField(_(u'Slug'), unique=True)
     description = EnhancedTextField(_('Description'), blank=True, null=True)
     new_tags = TagField(_(u'Tags'), blank=True, null=True)
+    related_event = models.ForeignKey('partners.MediaPatronage', blank=True, null=True)
 
     objects = PlaylistManager()
 
@@ -228,6 +229,10 @@ class Episode(models.Model):
 
     def get_number(self):
         return u"{} #{:01d}".format(self.program, self.number) if self.program and self.number else u""
+
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("id__iexact", "title__icontains",)
 
 
 register(Program)
