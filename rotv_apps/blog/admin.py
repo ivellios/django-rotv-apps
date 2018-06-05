@@ -13,6 +13,7 @@ class EntryAdmin(admin.ModelAdmin):
     raw_id_fields = ('categories',)
     autocomplete_lookup_fields = {
         'm2m': ['categories'],
+        'fk': ['related_event'],
     }
 
 

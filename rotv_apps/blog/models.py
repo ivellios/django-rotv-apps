@@ -84,6 +84,8 @@ class Entry(models.Model):
     image = models.ImageField(_(u'Obraz szeroki (cover)'), blank=True, null=True, upload_to='blog-images')
     image_right = models.ImageField(_(u'Obraz wąski/pływający'), blank=True, null=True, upload_to='blog-images')
 
+    related_event = models.ForeignKey('partners.MediaPatronage', blank=True, null=True)
+
     objects = EntryManager.from_queryset(EntryQuerySet)()
     published = PublishedEntryManager.from_queryset(EntryQuerySet)()
 
