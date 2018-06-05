@@ -17,6 +17,7 @@ def runtests():
                                       'rotv_apps.partners',
                                       'rotv_apps.program',
                                       'rotv_apps.tag_search',
+                                      'rotv_apps.shortener',
                                       ])
     sys.exit(bool(failures))
 
