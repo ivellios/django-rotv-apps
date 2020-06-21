@@ -92,7 +92,7 @@ class Playlist(models.Model):
     slug = models.SlugField(_(u'Slug'), unique=True)
     description = EnhancedTextField(_('Description'), blank=True, null=True)
     new_tags = TagField(_(u'Tags'), blank=True, null=True)
-    related_events = models.ManyToManyField('partners.MediaPatronage', blank=True, null=True, related_name='playlists')
+    related_events = models.ManyToManyField('partners.MediaPatronage', blank=True, related_name='playlists')
 
     objects = PlaylistManager()
 
@@ -105,8 +105,8 @@ class Playlist(models.Model):
 
 
 class PlaylistEpisode(models.Model):
-    playlist = models.ForeignKey('program.Playlist', related_name='playlist_episodes')
-    episode = models.ForeignKey('program.Episode', related_name='playlist_episodes')
+    playlist = models.ForeignKey('program.Playlist', related_name='playlist_episodes', on_delete=models.CASCADE)
+    episode = models.ForeignKey('program.Episode', related_name='playlist_episodes', on_delete=models.CASCADE)
     position = models.PositiveSmallIntegerField(_('Position'), default=0)
 
     class Meta:

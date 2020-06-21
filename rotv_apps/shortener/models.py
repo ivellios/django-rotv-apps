@@ -26,8 +26,8 @@ class ShortenedURL(models.Model):
     created = models.DateTimeField(_('Created'), auto_now_add=True, )
     modified = models.DateTimeField(_('Modified'), auto_now=True, )
     expires = models.DateTimeField(_('Expires'), blank=True, null=True)
-    created_by = models.ForeignKey(User, verbose_name=_('Created by'), related_name='created_shortened_urls')
-    modified_by = models.ForeignKey(User, verbose_name=_('Modified by'), related_name='modified_shortened_urls')
+    created_by = models.ForeignKey(User, verbose_name=_('Created by'), related_name='created_shortened_urls', on_delete=models.CASCADE)
+    modified_by = models.ForeignKey(User, verbose_name=_('Modified by'), related_name='modified_shortened_urls', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _('Shortened URL')

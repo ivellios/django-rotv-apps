@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from models import Partner, MediaPatron, MediaPatronage, NormalMediaPatronage, Colaborator
+from .models import Partner, MediaPatron, MediaPatronage, NormalMediaPatronage, Colaborator
 
 
 def activate_event(modeladmin, request, queryset):

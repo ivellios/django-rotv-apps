@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from models import Entry, Category
+from .models import Entry, Category
 
 
 class EntryAdmin(admin.ModelAdmin):
