@@ -111,6 +111,10 @@ class MediaPatronage(models.Model):
         return "{admin_root}/admin/partners/mediapatronage/{pk}".format(admin_root=settings.ROOT_URL,
                                                                         pk=self.pk)
 
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("id__iexact", "name__icontains",)
+
 
 class NormalMediaPatronage(models.Model):
     """ Patronat wydawnictw, publikacji, produktow """

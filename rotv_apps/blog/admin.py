@@ -10,9 +10,10 @@ class EntryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     list_filter = ['categories']
     search_fields = ['title']
-    raw_id_fields = ('categories',)
+    raw_id_fields = ('categories', 'related_event')
     autocomplete_lookup_fields = {
         'm2m': ['categories'],
+        'fk': ['related_event'],
     }
 
 

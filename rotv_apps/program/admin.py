@@ -12,6 +12,19 @@ from .models import Episode, Program, Host, PlaylistEpisode, Playlist
 class PlaylistEpisodeModelOptions(admin.TabularInline):
     fields = ['episode', 'playlist', 'position', ]
     model = PlaylistEpisode
+    raw_id_fields = ('episode', )
+    autocomplete_lookup_fields = {
+        'm2m': ['episode'],
+    }
+    extra = 3
+
+    def get_extra(self, request, obj=None, **kwargs):
+        """Dynamically sets the number of extra forms. 0 if the related object
+        already exists or the extra configuration otherwise."""
+        if obj:
+            # Don't add any extra forms if the related object already exists.
+            return 0
+        return self.extra
 
 
 class SortablePlaylistEpisodeModelOptions(PlaylistEpisodeModelOptions):
@@ -85,7 +98,6 @@ class ProgramAdmin(admin.ModelAdmin):
             added_episodes
         ))
 
-
     migrate_to_playlist.short_description = 'Migrate episodes from Program to Playlist'
 
 
@@ -96,6 +108,10 @@ class HostAdmin(admin.ModelAdmin):
 class PlaylistAdmin(admin.ModelAdmin):
     list_display = ['__unicode__', ]
     prepopulated_fields = {'slug': ('name',), }
+    raw_id_fields = ('related_events',)
+    autocomplete_lookup_fields = {
+        'm2m': ['related_events'],
+    }
 
     inlines = [SortablePlaylistEpisodeModelOptions, ]
 
