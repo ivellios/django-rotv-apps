@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.contrib import admin
 
-from models import Hero, HeroEntry
+from .models import Hero, HeroEntry
 
 
 class HeroEntryAdmin(admin.ModelAdmin):

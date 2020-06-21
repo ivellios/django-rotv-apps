@@ -54,7 +54,7 @@ class PublishedHeroManager(models.Manager):
 
 
 class HeroEntry(models.Model):
-    hero = models.ForeignKey(Hero, related_name='entries')
+    hero = models.ForeignKey(Hero, related_name='entries', on_delete=models.CASCADE)
     title = models.CharField(_(u'Tytuł'), max_length=255, )
     subtitle = models.CharField(_(u'Podtytuł'), max_length=255, blank=True, null=True)
     text = models.CharField(_(u'Lead'), max_length=255, blank=True, null=True)

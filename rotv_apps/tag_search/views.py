@@ -2,7 +2,7 @@
 import re
 import operator
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Q
 from django.http import Http404
 from django.utils.http import urlquote_plus, urlunquote_plus

@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-rotv-apps',
-    version='2.5.0',
+    version='3.0.0',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',  # example license
@@ -21,10 +21,10 @@ setup(
     test_suite='runtests.runtests',
     install_requires=[
         'Pillow==6.2.2',
-        'Django==1.11.29',
-        'django-tagging==0.4.5',
-        'django-filebrowser>=3.9.1',
-        'django-grappelli>=2.10.1',
+        'Django==2.2.13',
+        'django-tagging==0.5.0',
+        'django-filebrowser==3.13.1',
+        'django-grappelli>=2.14.2',
         'django-adminactions',
         'django-tinymce4-lite',
         'yturl==2.0.2',

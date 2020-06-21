@@ -18,7 +18,7 @@ class NavManager(models.Manager):
 
 
 class Nav(models.Model):
-    parent = models.ForeignKey('self', null = True, blank = True, related_name='subnav')
+    parent = models.ForeignKey('self', null = True, blank = True, related_name='subnav', on_delete=models.CASCADE)
     name = models.CharField(_(u'Nazwa'), max_length = 255)
     slug = models.SlugField(_(u'Identyfikator slug'), )
     url = models.CharField(_(u'URL'), max_length = 255, blank = True, null = True)
