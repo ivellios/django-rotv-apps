@@ -20,7 +20,7 @@ setup(
     author_email='ivellios@raportobiezyswiata.tv',
     test_suite='runtests.runtests',
     install_requires=[
-        'Pillow==6.2.2',
+        'Pillow==8.1.1',
         'Django==2.2.18',
         'django-tagging==0.5.0',
         'django-filebrowser==3.13.1',
