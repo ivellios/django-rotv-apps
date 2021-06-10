@@ -21,7 +21,7 @@ setup(
     test_suite='runtests.runtests',
     install_requires=[
         'Pillow==6.2.2',
-        'Django==2.2.18',
+        'Django==2.2.24',
         'django-tagging==0.5.0',
         'django-filebrowser==3.13.1',
         'django-grappelli>=2.14.2',
